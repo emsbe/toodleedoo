@@ -3,16 +3,24 @@ package hwr.oop;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import static org.assertj.core.api.Assertions.*;
 
 public class TaskListTest {
     TaskList taskList;
     Task task;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    LocalDate dueDate;
+    LocalDate deadline;
 
     @BeforeEach
     void setUp() {
         taskList = new TaskList();
-        task = new Task("vacuum", "25.05.22", "27.05.22");
+        task = new Task("vacuum", dueDate, deadline);
+        LocalDate dueDate = LocalDate.parse("25.05.2022", formatter);
+        LocalDate deadline = LocalDate.parse("27.05.2022", formatter);
 
     }
 
@@ -37,7 +45,7 @@ public class TaskListTest {
     @Test
     void taskList_deleteTask_isEmptyReturnsFalseAfterTwoTasksAreAddedAndOneRemoved() {
         taskList.add(task);
-        Task newTask = new Task("do OOP homework", "30.05.22", "01.06.22");
+        Task newTask = new Task("do OOP homework", dueDate, deadline);
         taskList.add(newTask);
         taskList.deleteTask(task);
         assertThat(taskList.isEmpty()).isFalse();
@@ -60,8 +68,8 @@ public class TaskListTest {
     @Test
     void taskList_getIndexOf_returns1AfterThreeAddedAndSecondQueried() {
         taskList.add(task);
-        Task secondTask = new Task("clean bathroom", "04.06.22", "05.06.22");
-        Task thirdTask = new Task("study", "04.06.22", "05.06.22");
+        Task secondTask = new Task("clean bathroom", dueDate, deadline);
+        Task thirdTask = new Task("study", dueDate, deadline);
         taskList.add(secondTask);
         taskList.add(thirdTask);
         int index = taskList.getIndexOf(secondTask);
@@ -75,10 +83,10 @@ public class TaskListTest {
 
     @Test
     void taskList_changeTask_getTaskAtIndex_returnsNewTaskAtGivenIndex() {
-        Task fourthTask = new Task("Python", "04.06.22", "05.06.22");
+        Task fourthTask = new Task("Python", dueDate, deadline);
         taskList.add(fourthTask);
         int index = taskList.getIndexOf(fourthTask);
-        Task newTask = new Task("Java", "04.06.22", "05.06.22");
+        Task newTask = new Task("Java", dueDate, deadline);
         taskList.changeTask(taskList.getIndexOf(fourthTask), newTask);
         taskList.getTaskAtIndex(index);
         assertThat(taskList.getTaskAtIndex(index)).isEqualTo(newTask);
@@ -86,10 +94,10 @@ public class TaskListTest {
 
     @Test
     void taskList_changeTask_returnsPreviousTaskAtGivenIndex() {
-        Task fourthTask = new Task("Python", "04.06.22", "05.06.22");
+        Task fourthTask = new Task("Python", dueDate, deadline);
         taskList.add(fourthTask);
         int index = taskList.getIndexOf(fourthTask);
-        Task newTask = new Task("Java", "04.06.22", "05.06.22");
+        Task newTask = new Task("Java", dueDate, deadline);
         Task oldTask = taskList.changeTask(taskList.getIndexOf(fourthTask), newTask);
         assertThat(oldTask).isEqualTo(fourthTask);
     }

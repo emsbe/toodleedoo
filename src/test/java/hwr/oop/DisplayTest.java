@@ -4,6 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import static org.assertj.core.api.Assertions.*;
 
 public class DisplayTest {
@@ -11,18 +14,23 @@ public class DisplayTest {
     Task task;
     Display display;
     OutputStream outputStream;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    LocalDate dueDate;
+    LocalDate deadline;
 
     @BeforeEach
     void setUp() {
         taskList = new TaskList();
-        task = new Task("washing", "04.06.22", "05.06.22");
+        LocalDate dueDate = LocalDate.parse("25.05.2022", formatter);
+        LocalDate deadline = LocalDate.parse("27.05.2022", formatter);
+        task = new Task("vacuum", dueDate, deadline);
         display = new Display();
         outputStream = new ByteArrayOutputStream();
     }
     @Test
     void display_showAll_showAllTasksInTaskList() {
         taskList.add(task);
-        taskList.add(new Task("call Begüm", "04.06.22", "05.06.22"));
+        taskList.add(new Task("call Begüm", dueDate, deadline));
         display.showAllTasksIn(taskList);
         //String output = showAllTasksIn(outputStream);
         //assertThat(output).isEqualTo

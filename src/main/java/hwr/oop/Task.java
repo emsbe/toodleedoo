@@ -1,11 +1,14 @@
 package hwr.oop;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 public class Task {
     private String taskName;
-    private String date;
-    private String deadline;
+    private LocalDate date;
+    private LocalDate deadline;
 
-    public Task(String taskName, String date, String deadline) {
+    public Task(String taskName, LocalDate date, LocalDate deadline) {
         this.taskName = taskName;
         this.date = date;
         this.deadline = deadline;
@@ -15,11 +18,11 @@ public class Task {
         return taskName;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public String getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 }
