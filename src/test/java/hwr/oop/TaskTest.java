@@ -41,4 +41,22 @@ public class TaskTest {
     void task_testThatReturnedDateIsOfLocalDateClass () {
         assertThat(task.getDeadline()).isInstanceOf(LocalDate.class);
     }
+
+    @Test
+    void task_compareTo_comparesTaskWithGreaterTask_returnsNegativeInteger() {
+        Task otherTask = new Task("call Mum", LocalDate.parse("06.06.2022", formatter), LocalDate.parse("07.06.2022", formatter));
+        assertThat(task.compareTo(otherTask)).isLessThan(0);
+    }
+
+    @Test
+    void task_compareTo_comparesTaskWithTaskWithLesserDate_returnsPositiveInteger() {
+        Task otherTask = new Task("call Mum", LocalDate.parse("24.04.2022", formatter), LocalDate.parse("07.06.2022", formatter));
+        assertThat(task.compareTo(otherTask)).isGreaterThan(0);
+    }
+
+    @Test
+    void task_compareTo_comparesTwoTasksWithTheSameDate_returnsZero() {
+        Task otherTask = new Task("call Mum", LocalDate.parse("25.05.2022", formatter), LocalDate.parse("07.06.2022", formatter));
+        assertThat(task.compareTo(otherTask)).isEqualTo(0);
+    }
 }

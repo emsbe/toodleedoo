@@ -3,7 +3,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
-public class Task {
+public class Task implements Comparable<Task>{
     private String taskName;
     private LocalDate date;
     private LocalDate deadline;
@@ -24,5 +24,10 @@ public class Task {
 
     public LocalDate getDeadline() {
         return deadline;
+    }
+
+    @Override
+    public int compareTo(Task otherTask) {
+        return this.getDate().compareTo(otherTask.getDate());
     }
 }
