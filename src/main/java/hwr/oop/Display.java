@@ -11,5 +11,13 @@ public class Display {
         }
     }
 
+    public void showViewOf(TaskList taskList, String view) {
+        TaskList filteredTaskList = taskList;
+        filteredTaskList.sortBy(view);
+        for (int index = 0; index < filteredTaskList.getLength(); index++) {
+            Task task = taskList.getTaskAtIndex(index);
+            System.out.println(String.format("%d - %s: Deadline für %s", index+1, task.getDeadline(), task.getTaskName()));
+        }
+    }
 
 }

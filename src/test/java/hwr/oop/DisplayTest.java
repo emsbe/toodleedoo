@@ -37,4 +37,12 @@ public class DisplayTest {
         // TODO: Wie kann man das testen?
 
     }
+
+    @Test
+    void display_showView() {
+        taskList.add(task);
+        taskList.add(new Task("call Begüm", LocalDate.parse("23.06.2022", formatter), LocalDate.parse("25.05.2022", formatter)));
+        display.showViewOf(taskList, "deadline");
+        // TODO: Wie kann man das testen?
+    }
 }
