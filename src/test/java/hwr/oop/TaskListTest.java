@@ -103,10 +103,35 @@ public class TaskListTest {
     }
 
     @Test
-    void taskList_getLength_returns1() {
+    void taskList_getLength_OneTaskAdded_returns1() {
         taskList.add(task);
         assertThat(taskList.getLength()).isEqualTo(1);
     }
+
+    @Test
+    void taskList_add_TaskAddedSecondWithEarlierDateIsAtIndex0() {
+        Task taskToTest = new Task("call Mum", LocalDate.parse("05.06.2022", formatter), LocalDate.parse("08.06.2022", formatter));
+        taskList.add(new Task("study", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("06.06.2022", formatter)));
+        taskList.add(taskToTest);
+        assertThat(taskList.getTaskAtIndex(0)).isEqualTo(taskToTest);
+    }
+
+    @Test
+    void taskList_add_TaskAddedToEmptyList_NoErrorAddingToAnEmptyArrayList() {
+        taskList.add(task);
+        assertThat(taskList.getTaskAtIndex(0)).isEqualTo(task);
+    }
+
+    @Test
+    void taskList_add_AddedTwoTasksThenThirdTask_NoErrorAddingToEndOfArrayList() {
+        Task taskToTest = new Task("call Mum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter));
+        taskList.add(new Task("study", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("06.06.2022", formatter)));
+        taskList.add(new Task("meet Friends", LocalDate.parse("06.06.2022", formatter), LocalDate.parse("06.06.2022", formatter)));
+        taskList.add(taskToTest);
+        assertThat(taskList.getTaskAtIndex(2)).isEqualTo(taskToTest);
+    }
+
+
 
 
 }

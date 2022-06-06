@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class TaskList {
-    private List<Task> taskList;
+    private final List<Task> taskList;
     private Collection<Task> completedTasks;
 
     public TaskList() {
@@ -17,8 +17,25 @@ public class TaskList {
     }
 
     public void add(Task task) {
-        taskList.add(task);
+        int index = getIndexToSortIn(task);
+        taskList.add(index, task);
     }
+
+    private int getIndexToSortIn(Task task) {
+        int length = taskList.size();
+        for (int index = 0; index < length; index++) {
+            if (isTaskEarlierOrEqualToTaskAtIndex(task, index)) {
+                return index;
+            }
+        }
+        //insert at end of array list (or into empty array list)
+        return length;
+    }
+
+    private boolean isTaskEarlierOrEqualToTaskAtIndex(Task task, int index) {
+        return task.compareTo(taskList.get(index)) <= 0;
+    }
+
 
     public void deleteTask(Task task) {
         taskList.remove(task);
@@ -49,4 +66,6 @@ public class TaskList {
     public int getLength() {
         return taskList.size();
     }
+
+
 }
