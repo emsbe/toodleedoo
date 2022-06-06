@@ -1,8 +1,6 @@
 package hwr.oop;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class TaskList {
     private final List<Task> taskList;
@@ -36,6 +34,19 @@ public class TaskList {
         return task.compareTo(taskList.get(index)) <= 0;
     }
 
+    public void sortBy(String filter) {
+        Collections.sort(taskList, new Comparator<Task>() {
+            @Override
+            public int compare(Task task1, Task task2) {
+                if(Objects.equals(filter, "deadline")) {
+                    return task1.getDeadline().compareTo(task2.getDeadline());
+                } else if(Objects.equals(filter, "date")) {
+                    return task1.getDate().compareTo(task2.getDate());
+                }
+                return 0;
+            }
+        });
+    }
 
     public void deleteTask(Task task) {
         taskList.remove(task);

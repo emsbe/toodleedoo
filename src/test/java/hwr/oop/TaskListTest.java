@@ -131,6 +131,28 @@ public class TaskListTest {
         assertThat(taskList.getTaskAtIndex(2)).isEqualTo(taskToTest);
     }
 
+    @Test
+    void taskList_sortBy_sortsCurrentStateOfTaskListByDeadlineIntoNewTaskList_returnsTaskWithEarliestDeadlineAtIndex0() {
+        Task taskToTest = new Task("call Mum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter));
+        taskList.add(new Task("study", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("15.06.2022", formatter)));
+        taskList.add(new Task("meet Friends", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("14.06.2022", formatter)));
+        taskList.add(taskToTest);
+        TaskList filteredTaskList = taskList;
+        filteredTaskList.sortBy("deadline");
+        assertThat(filteredTaskList.getTaskAtIndex(0)).isEqualTo(taskToTest);
+    }
+
+    @Test
+    void taskList_sortBy_returnsTaskWithLatestDeadlineAtIndex2() {
+        Task taskToTest = new Task("study", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("15.06.2022", formatter));
+        taskList.add(new Task("call Mum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter)));
+        taskList.add(new Task("meet Friends", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("14.06.2022", formatter)));
+        taskList.add(taskToTest);
+        TaskList filteredTaskList = taskList;
+        filteredTaskList.sortBy("deadline");
+        assertThat(filteredTaskList.getTaskAtIndex(2)).isEqualTo(taskToTest);
+    }
+
 
 
 
