@@ -37,11 +37,11 @@ public class TaskList {
     public void sortBy(String filter) {
         Collections.sort(taskList, new Comparator<Task>() {
             @Override
-            public int compare(Task task1, Task task2) {
+            public int compare(Task firstTask, Task secondTask) {
                 if(Objects.equals(filter, "deadline")) {
-                    return task1.getDeadline().compareTo(task2.getDeadline());
+                    return firstTask.getDeadline().compareTo(secondTask.getDeadline());
                 } else if(Objects.equals(filter, "date")) {
-                    return task1.getDate().compareTo(task2.getDate());
+                    return firstTask.getDate().compareTo(secondTask.getDate());
                 }
                 return 0;
             }
