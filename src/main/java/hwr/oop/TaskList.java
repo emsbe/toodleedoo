@@ -42,8 +42,8 @@ public class TaskList {
                     return firstTask.getDeadline().compareTo(secondTask.getDeadline());
                 } else if(Objects.equals(filter, "date")) {
                     return firstTask.getDate().compareTo(secondTask.getDate());
-                }
-                return 0;
+                } else return 0;
+                // TODO: Hier vielleicht eine Exception werfen, wenn ein Filter gegeben wird, nach dem nicht gefiltert werden kann?
             }
         });
     }
