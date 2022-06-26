@@ -69,5 +69,14 @@ public class KanbanBoardTest {
         // TODO: Wie kann man das testen?
     }
 
+    @Test
+    void kanbanBoard_update_switchesTaskFromDoingToDone_adhocPolymorphism() {
+        doing.delete(taskCall);
+        done.add(taskCall);
+        kanbanBoard.update(doing, done, "doing", "done");
+        assertThat(kanbanBoard.getDoing().getLength()).isEqualTo(0);
+        assertThat(kanbanBoard.getDone().getLength()).isEqualTo(2);
+    }
+
 
 }

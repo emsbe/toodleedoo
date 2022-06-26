@@ -23,6 +23,11 @@ public class KanbanBoard {
         }
     }
 
+    public void update(TaskListOrganizer originalList, TaskListOrganizer updatedList, String oldCategory, String newCategory) {
+        update(originalList, oldCategory);
+        update(updatedList, newCategory);
+    }
+
     public TaskListOrganizer getToDo() {
         return toDo;
     }
@@ -61,4 +66,5 @@ public class KanbanBoard {
             return "";
         } else return taskList.getTaskAtIndex(index).getTaskName();
     }
+
 }
