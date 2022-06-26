@@ -68,6 +68,6 @@ public class KanbanBoardTest {
         kanbanBoard.show();
         // TODO: Wie kann man das testen?
     }
-    
+
 
 }
