@@ -5,6 +5,7 @@ import java.util.*;
 public class TaskList implements TaskListOrganizer{
     private final List<Task> taskList;
     private Collection<Task> completedTasks;
+    Sorting sorting = new Sorting();
 
     public TaskList() {
         this.taskList = new ArrayList<>();
@@ -17,7 +18,7 @@ public class TaskList implements TaskListOrganizer{
 
     @Override
     public void add(Task task) {
-        int index = getIndexToSortIn(task);
+        int index = sorting.getIndexToSortIn(taskList, task);
         taskList.add(index, task);
     }
 
@@ -25,7 +26,7 @@ public class TaskList implements TaskListOrganizer{
     public void delete(Task task) {
         taskList.remove(task);
     }
-
+/*
     private int getIndexToSortIn(Task task) {
         int length = taskList.size();
         for (int index = 0; index < length; index++) {
@@ -40,6 +41,8 @@ public class TaskList implements TaskListOrganizer{
     private boolean isTaskEarlierOrEqualToTaskAtIndex(Task task, int index) {
         return task.compareTo(taskList.get(index)) <= 0;
     }
+
+ */
 
     public void sortBy(String filter) {
         Collections.sort(taskList, new Comparator<Task>() {
@@ -78,6 +81,7 @@ public class TaskList implements TaskListOrganizer{
         return taskList.get(index);
     }
 
+    @Override
     public int getLength() {
         return taskList.size();
     }

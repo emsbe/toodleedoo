@@ -5,8 +5,8 @@ public interface TaskListOrganizer {
 
     void add(Task task);
 
-    void sortBy(String filter);
-
     void delete(Task task);
+
+    int getLength();
 
 }
