@@ -2,7 +2,7 @@ package hwr.oop;
 
 import java.util.*;
 
-public class TaskList {
+public class TaskList implements TaskListOrganizer{
     private final List<Task> taskList;
     private Collection<Task> completedTasks;
 
@@ -10,13 +10,20 @@ public class TaskList {
         this.taskList = new ArrayList<>();
     }
 
+    @Override
     public boolean isEmpty() {
         return taskList.isEmpty();
     }
 
+    @Override
     public void add(Task task) {
         int index = getIndexToSortIn(task);
         taskList.add(index, task);
+    }
+
+    @Override
+    public void delete(Task task) {
+        taskList.remove(task);
     }
 
     private int getIndexToSortIn(Task task) {
@@ -48,9 +55,6 @@ public class TaskList {
         });
     }
 
-    public void deleteTask(Task task) {
-        taskList.remove(task);
-    }
 
     public void markAsDone(Task task) {
         taskList.remove(task);
