@@ -1,6 +1,9 @@
 package hwr.oop;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Display {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public void showAllTasksIn(TaskList taskList) {
         int length = taskList.getLength();
@@ -16,8 +19,17 @@ public class Display {
         filteredTaskList.sortBy(view);
         for (int index = 0; index < filteredTaskList.getLength(); index++) {
             Task task = taskList.getTaskAtIndex(index);
-            System.out.println(String.format("%d - %s: Deadline für %s", index+1, task.getDeadline(), task.getTaskName()));
+            System.out.println(String.format("%d - %s: %s for %s", index+1, task.getDeadline(), view, task.getTaskName()));
         }
     }
 
+    public void showTaskAt(TaskList taskList, String date) {
+        LocalDate formatDate = LocalDate.parse(date, formatter);
+        for (int index = 0; index < taskList.getLength(); index++) {
+            Task taskAtIndex = taskList.getTaskAtIndex(index);
+            if (taskAtIndex.getDate().compareTo(formatDate) == 0) {
+                System.out.println(String.format("To Do on %s: %s", date, taskAtIndex.getTaskName()));
+            }
+        }
+    }
 }
