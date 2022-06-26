@@ -30,4 +30,9 @@ public class ToDo implements TaskListOrganizer {
     public int getLength() {
         return toDo.size();
     }
+
+    @Override
+    public Task getTaskAtIndex(int index) {
+        return toDo.get(index);
+    }
 }

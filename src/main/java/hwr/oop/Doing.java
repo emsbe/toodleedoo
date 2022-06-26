@@ -30,4 +30,9 @@ public class Doing implements TaskListOrganizer {
     public int getLength() {
         return doing.size();
     }
+
+    @Override
+    public Task getTaskAtIndex(int index) {
+        return doing.get(index);
+    }
 }

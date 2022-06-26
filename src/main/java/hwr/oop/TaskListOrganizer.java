@@ -9,4 +9,6 @@ public interface TaskListOrganizer {
 
     int getLength();
 
+    Task getTaskAtIndex(int index);
+
 }
