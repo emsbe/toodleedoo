@@ -59,4 +59,9 @@ public class TaskTest {
         Task taskCall = new Task("call Mum", LocalDate.parse("25.05.2022", formatter), LocalDate.parse("07.06.2022", formatter));
         assertThat(taskVacuum.compareTo(taskCall)).isEqualTo(0);
     }
+
+    @Test
+    void task_getKanbanLabel_returnsKanbanLabel() {
+
+    }
 }

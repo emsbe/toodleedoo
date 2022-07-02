@@ -18,9 +18,9 @@ public class TaskListTest {
     @BeforeEach
     void setUp() {
         taskList = new TaskList();
+        dueDate = LocalDate.parse("25.05.2022", formatter);
+        deadline = LocalDate.parse("27.05.2022", formatter);
         taskVacuum = new Task("vacuum", dueDate, deadline);
-        LocalDate dueDate = LocalDate.parse("25.05.2022", formatter);
-        LocalDate deadline = LocalDate.parse("27.05.2022", formatter);
 
     }
 
@@ -38,7 +38,7 @@ public class TaskListTest {
     @Test
     void taskList_deleteTask_isEmptyReturnsTrueAfterOneTaskIsAddedAndRemoved() {
         taskList.add(taskVacuum);
-        taskList.deleteTask(taskVacuum);
+        taskList.delete(taskVacuum);
         assertThat(taskList.isEmpty()).isTrue();
     }
 
@@ -47,7 +47,7 @@ public class TaskListTest {
         taskList.add(taskVacuum);
         Task newTask = new Task("do OOP homework", dueDate, deadline);
         taskList.add(newTask);
-        taskList.deleteTask(taskVacuum);
+        taskList.delete(taskVacuum);
         assertThat(taskList.isEmpty()).isFalse();
     }
 
