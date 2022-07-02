@@ -12,6 +12,11 @@ public class Input {
         this.printStream = printStream;
     }
 
+    //TODO: Zweiter Konstruktor, damit es tatsächlich nutzbar ist
+    public Input() {
+
+    }
+
     public void enterTaskName() {
         printStream.println("Enter a task: ");
         String task = scanner.nextLine();

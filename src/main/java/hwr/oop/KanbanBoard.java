@@ -42,7 +42,7 @@ public class KanbanBoard {
 
     public void show() {
         int maxLength = Math.max(Math.max(toDo.getLength(), doing.getLength()), done.getLength());
-        System.out.format("| %-20s | %-20s | %-20s |\n", "To Do", "Doing", "Done");
+        System.out.format("| %-20s | %-20s | %-20s |%n", "To Do", "Doing", "Done");
         System.out.println("----------------------------------------------------------------------");
         for (int index = 0; index < maxLength; index++) {
             outputTasksInColumns(index, maxLength);
@@ -52,12 +52,12 @@ public class KanbanBoard {
 
     private void outputTasksInColumns(int index, int maxLength) {
         try {
-            System.out.format("| %-20s | %-20s | %-20s |\n", toDo.getTaskAtIndex(index).getTaskName(), doing.getTaskAtIndex(index).getTaskName(), done.getTaskAtIndex(index).getTaskName());
+            System.out.format("| %-20s | %-20s | %-20s |%n", toDo.getTaskAtIndex(index).getTaskName(), doing.getTaskAtIndex(index).getTaskName(), done.getTaskAtIndex(index).getTaskName());
         } catch (IndexOutOfBoundsException e) {
             String forToDo = getStringForOutput(toDo, maxLength, index);
             String forDoing = getStringForOutput(doing, maxLength, index);
             String forDone = getStringForOutput(done, maxLength, index);
-            System.out.format("| %-20s | %-20s | %-20s |\n", forToDo, forDoing, forDone);
+            System.out.format("| %-20s | %-20s | %-20s |%n", forToDo, forDoing, forDone);
         }
     }
 

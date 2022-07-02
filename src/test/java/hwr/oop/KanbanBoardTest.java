@@ -3,6 +3,8 @@ package hwr.oop;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -18,6 +20,7 @@ public class KanbanBoardTest {
     Task taskFood;
     Task taskGym;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    ByteArrayOutputStream outputStream;
 
     @BeforeEach
     void setUp() {
@@ -30,12 +33,14 @@ public class KanbanBoardTest {
         taskFood = new Task("prepare food", LocalDate.parse("26.06.2022", formatter), LocalDate.parse("01.07.2022", formatter));
         taskGym = new Task("go to gym", LocalDate.parse("27.06.2022", formatter), LocalDate.parse("27.06.2022", formatter));
 
-
         toDo.add(taskCode);
         doing.add(taskCall);
         done.add(taskFood);
 
         kanbanBoard = new KanbanBoard(toDo, doing, done);
+
+        outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
     }
 
     @Test
@@ -65,8 +70,13 @@ public class KanbanBoardTest {
         done.add(taskGym);
         kanbanBoard.update(toDo, "toDo");
         kanbanBoard.update(done, "done");
+        String desiredOutput = String.format("| To Do                | Doing                | Done                 |%n" +
+                "----------------------------------------------------------------------%n" +
+                "| code                 | call Mum             | prepare food         |%n" +
+                "| go to gym            |                      | go to gym            |%n" +
+                "----------------------------------------------------------------------");
         kanbanBoard.show();
-        // TODO: Wie kann man das testen?
+        assertThat(desiredOutput).isEqualTo(outputStream.toString().trim());
     }
 
     @Test
@@ -77,6 +87,4 @@ public class KanbanBoardTest {
         assertThat(kanbanBoard.getDoing().getLength()).isEqualTo(0);
         assertThat(kanbanBoard.getDone().getLength()).isEqualTo(2);
     }
-
-
 }
