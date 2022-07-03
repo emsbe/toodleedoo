@@ -20,17 +20,13 @@ public class FileLoadingTest {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     LocalDate dueDate;
     LocalDate deadline;
-    TaskListOrganizer toDo;
-    TaskListOrganizer doing;
-    TaskListOrganizer done;
+    KanbanBoard kanbanBoard;
 
     @BeforeEach
     void setUp() throws IOException {
         FileSaving fileSaving = new FileSaving();
         taskList = new TaskList();
-        toDo = new ToDo();
-        doing = new Doing();
-        done = new Done();
+        kanbanBoard = new KanbanBoard();
         dueDate = LocalDate.parse("25.05.2022", formatter);
         deadline = LocalDate.parse("27.05.2022", formatter);
 
@@ -43,19 +39,19 @@ public class FileLoadingTest {
         taskList.add(taskVacuum);
         taskList.add(taskJavaProject);
 
-        toDo.add(taskVacuum);
-        toDo.add(taskJavaProject);
-        doing.add(taskGroceries);
-        doing.add(taskCallMum);
-        done.add(taskGym);
+        kanbanBoard.addToBoard("toDo", taskVacuum);
+        kanbanBoard.addToBoard("toDo", taskJavaProject);
+        kanbanBoard.addToBoard("doing", taskGroceries);
+        kanbanBoard.addToBoard("doing", taskCallMum);
+        kanbanBoard.addToBoard("done", taskGym);
 
         outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
         fileSaving.saveToFile(taskList, "taskList");
-        fileSaving.saveToFile(toDo, "toDo");
-        fileSaving.saveToFile(doing, "doing");
-        fileSaving.saveToFile(done, "done");
+        fileSaving.saveToFile(kanbanBoard.getToDo(), "toDo");
+        fileSaving.saveToFile(kanbanBoard.getDoing(), "doing");
+        fileSaving.saveToFile(kanbanBoard.getDone(), "done");
         outputStream.reset();
     }
 
@@ -69,7 +65,7 @@ public class FileLoadingTest {
 
     @Test
     void fileLoading_loadFile_toDoIsOfTypeTaskListOrganizer_isNotOfTypeTaskList() {
-        toDo = fileLoading.loadFile("toDo");
+        TaskListOrganizer toDo = fileLoading.loadFile("toDo");
         assertThat(toDo).isInstanceOf(TaskListOrganizer.class).isNotInstanceOf(TaskList.class);
     }
 
@@ -93,6 +89,6 @@ public class FileLoadingTest {
             taskList = fileLoading.loadFile("doooing");
         });
     }
-
+// TODO: Alles aus files löschen nach Tests.
 
 }

@@ -17,17 +17,13 @@ public class FileSavingTest {
     LocalDate dueDate;
     LocalDate deadline;
     TaskListOrganizer taskList;
-    TaskListOrganizer toDo;
-    TaskListOrganizer doing;
-    TaskListOrganizer done;
+    KanbanBoard kanbanBoard;
     ByteArrayOutputStream outputStream;
 
     @BeforeEach
     void setUp() {
         taskList = new TaskList();
-        toDo = new ToDo();
-        doing = new Doing();
-        done = new Done();
+        kanbanBoard = new KanbanBoard();
         dueDate = LocalDate.parse("25.05.2022", formatter);
         deadline = LocalDate.parse("27.05.2022", formatter);
 
@@ -40,11 +36,12 @@ public class FileSavingTest {
         taskList.add(taskVacuum);
         taskList.add(taskJavaProject);
 
-        toDo.add(taskVacuum);
-        toDo.add(taskJavaProject);
-        doing.add(taskGroceries);
-        doing.add(taskCallMum);
-        done.add(taskGym);
+        kanbanBoard.addToBoard("toDo", taskVacuum);
+        kanbanBoard.addToBoard("toDo", taskJavaProject);
+        kanbanBoard.addToBoard("doing", taskGroceries);
+        kanbanBoard.addToBoard("doing", taskCallMum);
+        kanbanBoard.addToBoard("done", taskGym);
+
         outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
@@ -59,7 +56,7 @@ public class FileSavingTest {
 
     @Test
     void fileSaving_saveToFile_saveTaskListToFile_printsSaveUnsuccessful() throws IOException {
-        fileSaving.saveToFile(doing, "doiing");
+        fileSaving.saveToFile(kanbanBoard.getDoing(), "doiing");
         String desiredOutput = "doing has been successfully saved.";
         assertThat(desiredOutput).isNotEqualTo(outputStream.toString().trim());
     }

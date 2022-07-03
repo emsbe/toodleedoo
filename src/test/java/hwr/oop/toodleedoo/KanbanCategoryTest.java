@@ -15,9 +15,9 @@ public class KanbanCategoryTest {
 
     @BeforeEach
     void setUp() {
-        toDo = new ToDo();
-        doing = new Doing();
-        done = new Done();
+        toDo = new KanbanCategory();
+        doing = new KanbanCategory();
+        done = new KanbanCategory();
     }
 
     @Test

@@ -3,7 +3,7 @@ package hwr.oop;
 import java.util.*;
 
 public class TaskList implements TaskListOrganizer{
-    private final List<Task> taskList;
+    private List<Task> taskList;
     private Collection<Task> completedTasks;
     Sorting sorting = new Sorting();
 
@@ -25,6 +25,16 @@ public class TaskList implements TaskListOrganizer{
     @Override
     public void delete(Task task) {
         taskList.remove(task);
+    }
+
+    @Override
+    public Task getTaskAtIndex(int index) {
+        return taskList.get(index);
+    }
+
+    @Override
+    public int getLength() {
+        return taskList.size();
     }
 /*
     private int getIndexToSortIn(Task task) {
@@ -55,6 +65,7 @@ public class TaskList implements TaskListOrganizer{
                 } else return 0;
                 // TODO: Hier vielleicht eine Exception werfen, wenn ein Filter gegeben wird, nach dem nicht gefiltert werden kann?
             }
+            // TODO: eigentlich in Sorting enthalten
         });
     }
 
@@ -62,7 +73,7 @@ public class TaskList implements TaskListOrganizer{
     public void markAsDone(Task task) {
         taskList.remove(task);
         this.completedTasks = new ArrayList<>();
-        completedTasks.add(task); // TODO: testen
+        completedTasks.add(task); // TODO: löschen (auch Tests löschen, falls es die gibt)
     }
 
     public int getIndexOf(Task task) {
@@ -77,14 +88,14 @@ public class TaskList implements TaskListOrganizer{
         return taskList.set(index, newTask);
     }
 
-    @Override
-    public Task getTaskAtIndex(int index) {
-        return taskList.get(index);
-    }
-
-    @Override
-    public int getLength() {
-        return taskList.size();
+    public List<Task> getTaskWithName(String taskName) {
+        List<Task> requestedTasks = new ArrayList<>();
+        for (Task task: taskList) {
+            if (Objects.equals(task.getTaskName(), taskName)) {
+                requestedTasks.add(task);
+            }
+        }
+        return requestedTasks;
     }
 
 

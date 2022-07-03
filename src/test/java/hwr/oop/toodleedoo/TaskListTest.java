@@ -153,6 +153,26 @@ public class TaskListTest {
         assertThat(filteredTaskList.getTaskAtIndex(2)).isEqualTo(taskToTest);
     }
 
+    @Test
+    void taskList_getTaskWithName_returnsListWithOneTask() {
+        taskList.add(taskVacuum);
+        taskList.add(new Task("call Mum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter)));
+        assertThat(taskList.getTaskWithName("vacuum").size()).isEqualTo(1);
+    }
+
+    @Test
+    void taskList_getTaskWithName_returnsListWithTwoTasks() {
+        taskList.add(taskVacuum);
+        taskList.add(new Task("vacuum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter)));
+        assertThat(taskList.getTaskWithName("vacuum").size()).isEqualTo(2);
+    }
+
+    @Test
+    void taskList_getTaskWithName_returnsEmptyList() {
+        taskList.add(taskVacuum);
+        assertThat(taskList.getTaskWithName("call Mum").size()).isEqualTo(0);
+    }
+
 
 
 

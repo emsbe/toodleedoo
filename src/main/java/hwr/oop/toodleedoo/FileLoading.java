@@ -34,12 +34,12 @@ public class FileLoading {
         } catch (IOException e) {
             System.out.println(listType+" could not be read. Try again.");
         }
-        System.out.println("Loading "+listType+" has been successful.");
+        //System.out.println("Loading "+listType+" has been successful.");
         return taskList;
     }
 
     private TaskListOrganizer loadFileToKanbanTaskList(String listType) {
-        TaskListOrganizer taskList = new Doing();
+        TaskListOrganizer taskList = new KanbanCategory();
         try {
             File file = new File("src/test/java/hwr/oop/resources/"+listType+".txt");
             Scanner scanner = new Scanner(file);
@@ -50,7 +50,7 @@ public class FileLoading {
         } catch (IOException e) {
             System.out.println(listType+" could not be read. Try again.");
         }
-        System.out.println("Loading "+listType+" has been successful.");
+        //System.out.println("Loading "+listType+" has been successful.");
         return taskList;
     }
 
