@@ -1,5 +1,7 @@
-package hwr.oop;
+package hwr.oop.toodleedoo;
 
+import hwr.oop.toodleedoo.Task;
+import hwr.oop.toodleedoo.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

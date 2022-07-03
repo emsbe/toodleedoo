@@ -1,4 +1,4 @@
-package hwr.oop;
+package hwr.oop.toodleedoo;
 
 import java.io.*;
 import java.util.Scanner;

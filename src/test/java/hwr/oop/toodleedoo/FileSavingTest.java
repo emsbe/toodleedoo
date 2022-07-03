@@ -1,5 +1,6 @@
-package hwr.oop;
+package hwr.oop.toodleedoo;
 
+import hwr.oop.toodleedoo.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,8 +37,8 @@ public class FileSavingTest {
         taskList.add(taskVacuum);
         taskList.add(taskJavaProject);
 
-        kanbanBoard.addToBoard("toDo", taskVacuum);
-        kanbanBoard.addToBoard("toDo", taskJavaProject);
+        kanbanBoard.addToBoard("to do", taskVacuum);
+        kanbanBoard.addToBoard("to do", taskJavaProject);
         kanbanBoard.addToBoard("doing", taskGroceries);
         kanbanBoard.addToBoard("doing", taskCallMum);
         kanbanBoard.addToBoard("done", taskGym);

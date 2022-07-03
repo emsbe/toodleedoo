@@ -1,12 +1,12 @@
-package hwr.oop;
+package hwr.oop.toodleedoo;
 
+import hwr.oop.toodleedoo.Sorting;
+import hwr.oop.toodleedoo.Task;
+import hwr.oop.toodleedoo.TaskList;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
-import static org.assertj.core.api.Assertions.*;
 
 public class SortingTest {
     Sorting sorting;

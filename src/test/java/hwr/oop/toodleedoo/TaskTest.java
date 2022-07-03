@@ -1,8 +1,9 @@
-package hwr.oop;
+package hwr.oop.toodleedoo;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import hwr.oop.toodleedoo.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;

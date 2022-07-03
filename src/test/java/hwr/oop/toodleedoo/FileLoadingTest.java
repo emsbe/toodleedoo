@@ -1,5 +1,6 @@
-package hwr.oop;
+package hwr.oop.toodleedoo;
 
+import hwr.oop.toodleedoo.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -39,8 +40,8 @@ public class FileLoadingTest {
         taskList.add(taskVacuum);
         taskList.add(taskJavaProject);
 
-        kanbanBoard.addToBoard("toDo", taskVacuum);
-        kanbanBoard.addToBoard("toDo", taskJavaProject);
+        kanbanBoard.addToBoard("to do", taskVacuum);
+        kanbanBoard.addToBoard("to do", taskJavaProject);
         kanbanBoard.addToBoard("doing", taskGroceries);
         kanbanBoard.addToBoard("doing", taskCallMum);
         kanbanBoard.addToBoard("done", taskGym);
@@ -49,7 +50,7 @@ public class FileLoadingTest {
         System.setOut(new PrintStream(outputStream));
 
         fileSaving.saveToFile(taskList, "taskList");
-        fileSaving.saveToFile(kanbanBoard.getToDo(), "toDo");
+        fileSaving.saveToFile(kanbanBoard.getToDo(), "to do");
         fileSaving.saveToFile(kanbanBoard.getDoing(), "doing");
         fileSaving.saveToFile(kanbanBoard.getDone(), "done");
         outputStream.reset();
