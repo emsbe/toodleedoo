@@ -1,5 +1,6 @@
-package hwr.oop;
+package hwr.oop.toodleedoo;
 
+import hwr.oop.toodleedoo.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

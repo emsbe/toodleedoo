@@ -1,5 +1,8 @@
-package hwr.oop;
+package hwr.oop.toodleedoo;
 
+import hwr.oop.toodleedoo.KanbanCategory;
+import hwr.oop.toodleedoo.Task;
+import hwr.oop.toodleedoo.TaskListOrganizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
