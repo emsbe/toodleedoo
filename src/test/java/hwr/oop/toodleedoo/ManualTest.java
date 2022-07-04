@@ -59,18 +59,12 @@ public class ManualTest {
         System.out.println("Welcome to toodleedoo <3 ");
         newLine(1);
         System.out.println("These are your tasks for today: ");
-        newLine(1);
         display.showTaskAt(taskList, LocalDate.now().format(formatter));
+        newLine(1);
         while (continueProcess) {
             enterCommand();
         }
 
-    }
-
-    private void newLine(int numberOfNewLines) {
-        for (int i = 0; i <= numberOfNewLines; i++) {
-            System.out.println("");
-        }
     }
 
     private void loadAllFiles() {
@@ -81,9 +75,14 @@ public class ManualTest {
         kanbanBoard.loadToBoard(fileLoading.loadFile("done"), "done");
     }
 
+    private void newLine(int numberOfNewLines) {
+        for (int i = 0; i <= numberOfNewLines; i++) {
+            System.out.println();
+        }
+    }
+
     private void enterCommand() throws IOException {
         System.out.println("Enter your next command: ");
-        newLine(1);
         showAllCommands();
         newLine(1);
         String command = scanner.nextLine();
@@ -198,22 +197,36 @@ public class ManualTest {
             List<Task> requestedTasks = taskList.getTaskWithName(taskToMove);
             if (requestedTasks.size() > 1) {
                 int indexFromUser = whichTask(requestedTasks);
-                String newKanbanLabel = getLabel();
-                kanbanBoard.move(requestedTasks.get(indexFromUser), newKanbanLabel);
-                kanbanBoard.show();
+                moveToNewLabel(indexFromUser, requestedTasks);
             } else if (requestedTasks.size() == 1) {
-                String newKanbanLabel = getLabel();
-                kanbanBoard.move(requestedTasks.get(0), newKanbanLabel);
-                kanbanBoard.show();
+                moveToNewLabel(0, requestedTasks);
             } else System.out.println("The task doesn't exist. Sorry. ");
         } else {
             System.out.println("Invalid command. Please try again. ");
         }
     }
 
+    private void moveToNewLabel(int index, List<Task> tasks) {
+        String newKanbanLabel = getLabel();
+        Task taskToBeMoved = tasks.get(index);
+        kanbanBoard.move(taskToBeMoved, newKanbanLabel);
+        alsoDelete(newKanbanLabel, taskToBeMoved);
+        kanbanBoard.show();
+    }
+
     private String getLabel() {
         System.out.println("To which label do you want to move your task? ");
         return scanner.nextLine();
+    }
+
+    private void alsoDelete(String newKanbanLabel, Task task) {
+        if (Objects.equals(newKanbanLabel, "done")) {
+            System.out.println("Moving task to done - Do you want to delete this task from your general task list? Enter yes/no: ");
+            System.out.println("(You can still see it in your kanban board but cannot interact with it anymore.) ");
+            if (scanner.nextLine().toLowerCase().equals("yes")) {
+                taskList.delete(task);
+            }
+        }
     }
 
     private TaskList getKanbanCategoryList(String kanbanLabel) {
