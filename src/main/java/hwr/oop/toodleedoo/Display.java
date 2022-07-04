@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 public class Display {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public void showAllTasksIn(TaskList taskList) {
+    public void showAllTasksIn(TaskManager taskList) {
         int length = taskList.getLength();
         for (int index = 0; index < length; index++) {
             Task task = taskList.getTaskAtIndex(index);
@@ -14,8 +14,8 @@ public class Display {
         }
     }
 
-    public void showViewOf(TaskList taskList, String view) {
-        TaskList filteredTaskList = taskList;
+    public void showViewOf(TaskManager taskList, String view) {
+        TaskManager filteredTaskList = taskList;
         filteredTaskList.sortBy(view);
         for (int index = 0; index < filteredTaskList.getLength(); index++) {
             Task task = taskList.getTaskAtIndex(index);
@@ -23,7 +23,7 @@ public class Display {
         }
     }
 
-    public void showTaskAt(TaskList taskList, String date) {
+    public void showTaskAt(TaskManager taskList, String date) {
         LocalDate formatDate = LocalDate.parse(date, formatter);
         for (int index = 0; index < taskList.getLength(); index++) {
             Task taskAtIndex = taskList.getTaskAtIndex(index);

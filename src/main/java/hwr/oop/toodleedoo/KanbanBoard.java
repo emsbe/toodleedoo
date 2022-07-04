@@ -3,9 +3,9 @@ package hwr.oop.toodleedoo;
 import java.util.Objects;
 
 public class KanbanBoard {
-    TaskListOrganizer toDo;
-    TaskListOrganizer doing;
-    TaskListOrganizer done;
+    TaskList toDo;
+    TaskList doing;
+    TaskList done;
 
     public KanbanBoard() {
         this.toDo = new KanbanCategory();
@@ -13,7 +13,7 @@ public class KanbanBoard {
         this.done = new KanbanCategory();
     }
 
-    public void loadToBoard(TaskListOrganizer taskList, String kanbanCategory) {
+    public void loadToBoard(TaskList taskList, String kanbanCategory) {
         if (Objects.equals(kanbanCategory, "to do")) {
             this.toDo = taskList;
         } else if (Objects.equals(kanbanCategory, "doing")) {
@@ -31,7 +31,7 @@ public class KanbanBoard {
         getListToMatch(kanbanLabel).delete(task); //TODO: nullability
     }
 
-    private TaskListOrganizer getListToMatch(String label) {
+    private TaskList getListToMatch(String label) {
         if (Objects.equals(label, "to do")) {
             return toDo;
         } else if(Objects.equals(label, "doing")) {
@@ -47,15 +47,15 @@ public class KanbanBoard {
         getListToMatch(newKanbanLabel).add(task);
     }
 
-    public TaskListOrganizer getToDo() {
+    public TaskList getToDo() {
         return toDo;
     }
 
-    public TaskListOrganizer getDoing() {
+    public TaskList getDoing() {
         return doing;
     }
 
-    public TaskListOrganizer getDone() {
+    public TaskList getDone() {
         return done;
     }
 
@@ -80,7 +80,7 @@ public class KanbanBoard {
         }
     }
 
-    private String getStringForOutput(TaskListOrganizer taskList, int maxLength, int index) {
+    private String getStringForOutput(TaskList taskList, int maxLength, int index) {
         if (taskList.getLength() < maxLength) {
             return "";
         } else return taskList.getTaskAtIndex(index).getTaskName();
@@ -96,7 +96,7 @@ public class KanbanBoard {
         } else return "error"; //TODO: Raise Error
     }
 
-    private boolean loopThroughCategory(TaskListOrganizer taskList, Task task) {
+    private boolean loopThroughCategory(TaskList taskList, Task task) {
         for (int i = 0; i < taskList.getLength(); i++) {
             if (taskList.getTaskAtIndex(i) == task) {
                 return true;

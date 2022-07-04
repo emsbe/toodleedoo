@@ -1,6 +1,5 @@
 package hwr.oop.toodleedoo;
 
-import hwr.oop.toodleedoo.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -16,10 +15,10 @@ public class ManualTest {
     private Scanner scanner = new Scanner(System.in);
     private InputUse input = new InputUse();
     private ManageInput manageInput = new ManageInput();
-    private TaskList taskList = new TaskList();
-    private TaskListOrganizer toDo = new KanbanCategory();
-    private TaskListOrganizer doing = new KanbanCategory();
-    private TaskListOrganizer done = new KanbanCategory();
+    private TaskManager taskList = new TaskManager();
+    private TaskList toDo = new KanbanCategory();
+    private TaskList doing = new KanbanCategory();
+    private TaskList done = new KanbanCategory();
     private FileLoading fileLoading = new FileLoading();
     private FileSaving fileSaving = new FileSaving();
     private KanbanBoard kanbanBoard;
@@ -210,7 +209,7 @@ public class ManualTest {
         return scanner.nextLine();
     }
 
-    private TaskListOrganizer getKanbanCategoryList(String kanbanLabel) {
+    private TaskList getKanbanCategoryList(String kanbanLabel) {
         if (Objects.equals(kanbanLabel, "to do")) {
             return toDo;
         } else if (Objects.equals(kanbanLabel, "doing")) {

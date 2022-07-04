@@ -3,7 +3,7 @@ package hwr.oop.toodleedoo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KanbanCategory implements TaskListOrganizer {
+public class KanbanCategory implements TaskList {
     private List<Task> kanbanCategory;
     private Sorting sorting = new Sorting();
 

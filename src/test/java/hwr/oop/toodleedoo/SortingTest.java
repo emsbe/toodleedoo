@@ -1,8 +1,5 @@
 package hwr.oop.toodleedoo;
 
-import hwr.oop.toodleedoo.Sorting;
-import hwr.oop.toodleedoo.Task;
-import hwr.oop.toodleedoo.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.time.LocalDate;
@@ -10,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SortingTest {
     Sorting sorting;
-    TaskList taskList;
+    TaskManager taskList;
     Task taskVacuum;
     Task taskCall;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -20,7 +17,7 @@ public class SortingTest {
     @BeforeEach
     void setUp() {
         sorting = new Sorting();
-        taskList = new TaskList();
+        taskList = new TaskManager();
         dueDateVacuum = LocalDate.parse("25.05.2022", formatter);
         deadlineVacuum = LocalDate.parse("27.05.2022", formatter);
         LocalDate dueDateCall = LocalDate.parse("26.06.2022", formatter);

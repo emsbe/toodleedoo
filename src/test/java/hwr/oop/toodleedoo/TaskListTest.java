@@ -1,7 +1,5 @@
 package hwr.oop.toodleedoo;
 
-import hwr.oop.toodleedoo.Task;
-import hwr.oop.toodleedoo.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 import static org.assertj.core.api.Assertions.*;
 
 public class TaskListTest {
-    TaskList taskList;
+    TaskManager taskList;
     Task taskVacuum;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     LocalDate dueDate;
@@ -19,7 +17,7 @@ public class TaskListTest {
 
     @BeforeEach
     void setUp() {
-        taskList = new TaskList();
+        taskList = new TaskManager();
         dueDate = LocalDate.parse("25.05.2022", formatter);
         deadline = LocalDate.parse("27.05.2022", formatter);
         taskVacuum = new Task("vacuum", dueDate, deadline);
@@ -139,7 +137,7 @@ public class TaskListTest {
         taskList.add(new Task("study", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("15.06.2022", formatter)));
         taskList.add(new Task("meet Friends", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("14.06.2022", formatter)));
         taskList.add(taskToTest);
-        TaskList filteredTaskList = taskList;
+        TaskManager filteredTaskList = taskList;
         filteredTaskList.sortBy("deadline");
         assertThat(filteredTaskList.getTaskAtIndex(0)).isEqualTo(taskToTest);
     }
@@ -150,7 +148,7 @@ public class TaskListTest {
         taskList.add(new Task("call Mum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter)));
         taskList.add(new Task("meet Friends", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("14.06.2022", formatter)));
         taskList.add(taskToTest);
-        TaskList filteredTaskList = taskList;
+        TaskManager filteredTaskList = taskList;
         filteredTaskList.sortBy("deadline");
         assertThat(filteredTaskList.getTaskAtIndex(2)).isEqualTo(taskToTest);
     }

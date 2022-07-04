@@ -1,6 +1,5 @@
 package hwr.oop.toodleedoo;
 
-import hwr.oop.toodleedoo.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -89,7 +88,7 @@ public class KanbanBoardTest {
 
     @Test
     void kanbanBoard_loadToBoard_() throws IOException {
-        TaskListOrganizer toDo = new KanbanCategory();
+        TaskList toDo = new KanbanCategory();
         toDo.add(taskFood);
         fileSaving.saveToFile(toDo, "toDo");
         kanbanBoard.loadToBoard(fileLoading.loadFile("toDo"), "to do");

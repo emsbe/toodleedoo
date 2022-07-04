@@ -1,6 +1,5 @@
 package hwr.oop.toodleedoo;
 
-import hwr.oop.toodleedoo.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +13,7 @@ import static org.assertj.core.api.Assertions.*;
 
 public class FileLoadingTest {
     FileLoading fileLoading = new FileLoading();
-    TaskList taskList;
+    TaskManager taskList;
     ByteArrayOutputStream outputStream;
 
     Task taskVacuum;
@@ -26,7 +25,7 @@ public class FileLoadingTest {
     @BeforeEach
     void setUp() throws IOException {
         FileSaving fileSaving = new FileSaving();
-        taskList = new TaskList();
+        taskList = new TaskManager();
         kanbanBoard = new KanbanBoard();
         dueDate = LocalDate.parse("25.05.2022", formatter);
         deadline = LocalDate.parse("27.05.2022", formatter);
@@ -61,13 +60,13 @@ public class FileLoadingTest {
         taskList = fileLoading.loadFile("taskList");
         String desiredOutput = "Loading taskList has been successful.";
         assertThat(desiredOutput).isEqualTo(outputStream.toString().trim());
-        assertThat(taskList).isInstanceOf(TaskList.class);
+        assertThat(taskList).isInstanceOf(TaskManager.class);
     }
 
     @Test
     void fileLoading_loadFile_toDoIsOfTypeTaskListOrganizer_isNotOfTypeTaskList() {
-        TaskListOrganizer toDo = fileLoading.loadFile("toDo");
-        assertThat(toDo).isInstanceOf(TaskListOrganizer.class).isNotInstanceOf(TaskList.class);
+        TaskList toDo = fileLoading.loadFile("toDo");
+        assertThat(toDo).isInstanceOf(TaskList.class).isNotInstanceOf(TaskManager.class);
     }
 
     @Test

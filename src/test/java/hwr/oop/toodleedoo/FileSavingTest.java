@@ -1,6 +1,5 @@
 package hwr.oop.toodleedoo;
 
-import hwr.oop.toodleedoo.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,13 +16,13 @@ public class FileSavingTest {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     LocalDate dueDate;
     LocalDate deadline;
-    TaskListOrganizer taskList;
+    TaskList taskList;
     KanbanBoard kanbanBoard;
     ByteArrayOutputStream outputStream;
 
     @BeforeEach
     void setUp() {
-        taskList = new TaskList();
+        taskList = new TaskManager();
         kanbanBoard = new KanbanBoard();
         dueDate = LocalDate.parse("25.05.2022", formatter);
         deadline = LocalDate.parse("27.05.2022", formatter);

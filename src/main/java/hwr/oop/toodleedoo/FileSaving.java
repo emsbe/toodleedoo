@@ -7,7 +7,7 @@ import java.util.Objects;
 public class FileSaving {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public void saveToFile(TaskListOrganizer taskList, String listType) throws IOException {
+    public void saveToFile(TaskList taskList, String listType) throws IOException {
         if (Objects.equals(listType, "taskList") || Objects.equals(listType, "toDo") || Objects.equals(listType, "doing") || Objects.equals(listType, "done")) {
             try {
                 File file = new File("src/test/java/hwr/oop/toodleedoo/resources/" + listType + ".txt");

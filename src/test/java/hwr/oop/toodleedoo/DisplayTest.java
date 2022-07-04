@@ -1,8 +1,5 @@
 package hwr.oop.toodleedoo;
 
-import hwr.oop.toodleedoo.Display;
-import hwr.oop.toodleedoo.Task;
-import hwr.oop.toodleedoo.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
@@ -13,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import static org.assertj.core.api.Assertions.*;
 
 public class DisplayTest {
-    TaskList taskList;
+    TaskManager taskList;
     Task taskVacuum;
     Display display;
     ByteArrayOutputStream outputStream;
@@ -23,7 +20,7 @@ public class DisplayTest {
 
     @BeforeEach
     void setUp() {
-        taskList = new TaskList();
+        taskList = new TaskManager();
         LocalDate dueDate = LocalDate.parse("25.05.2022", formatter);
         LocalDate deadline = LocalDate.parse("27.05.2022", formatter);
         taskVacuum = new Task("vacuum", dueDate, deadline);

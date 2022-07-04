@@ -1,8 +1,5 @@
 package hwr.oop.toodleedoo;
 
-import hwr.oop.toodleedoo.KanbanCategory;
-import hwr.oop.toodleedoo.Task;
-import hwr.oop.toodleedoo.TaskListOrganizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
@@ -11,9 +8,9 @@ import java.time.format.DateTimeFormatter;
 import static org.assertj.core.api.Assertions.*;
 
 public class KanbanCategoryTest {
-    TaskListOrganizer toDo;
-    TaskListOrganizer doing;
-    TaskListOrganizer done;
+    TaskList toDo;
+    TaskList doing;
+    TaskList done;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     @BeforeEach

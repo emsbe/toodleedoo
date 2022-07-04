@@ -22,8 +22,8 @@ public class FileLoading {
 
     }
 
-    private TaskList loadFileToTaskList(String listType) {
-        TaskList taskList = new TaskList();
+    private TaskManager loadFileToTaskList(String listType) {
+        TaskManager taskList = new TaskManager();
         try {
             File file = new File("src/test/java/hwr/oop/toodleedoo/resources/"+listType+".txt");
             Scanner scanner = new Scanner(file);
@@ -38,8 +38,8 @@ public class FileLoading {
         return taskList;
     }
 
-    private TaskListOrganizer loadFileToKanbanTaskList(String listType) {
-        TaskListOrganizer taskList = new KanbanCategory();
+    private TaskList loadFileToKanbanTaskList(String listType) {
+        TaskList taskList = new KanbanCategory();
         try {
             File file = new File("src/test/java/hwr/oop/toodleedoo/resources/"+listType+".txt");
             Scanner scanner = new Scanner(file);
