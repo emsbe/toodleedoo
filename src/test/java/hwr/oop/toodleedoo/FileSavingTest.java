@@ -1,9 +1,11 @@
 package hwr.oop.toodleedoo;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.time.LocalDate;
@@ -59,6 +61,14 @@ public class FileSavingTest {
         fileSaving.saveToFile(kanbanBoard.getDoing(), "doiing");
         String desiredOutput = "doing has been successfully saved.";
         assertThat(desiredOutput).isNotEqualTo(outputStream.toString().trim());
+    }
+
+    @AfterAll
+    public static void cleanUpFiles() throws IOException {
+        new FileWriter("src/test/java/hwr/oop/toodleedoo/resources/toDo.txt", false).close();
+        new FileWriter("src/test/java/hwr/oop/toodleedoo/resources/doing.txt", false).close();
+        new FileWriter("src/test/java/hwr/oop/toodleedoo/resources/done.txt", false).close();
+        new FileWriter("src/test/java/hwr/oop/toodleedoo/resources/taskList.txt", false).close();
     }
 
 }
