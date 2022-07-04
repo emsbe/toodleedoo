@@ -132,6 +132,7 @@ public class ManualTest {
 
     private void deleteTask() {
         System.out.println("Which task do you want to delete? ");
+        showAllTaskNames();
         String taskName = scanner.nextLine();
         List<Task> requestedTasks = taskList.getTaskWithName(taskName);
         if (requestedTasks.size() == 1) {
@@ -140,8 +141,8 @@ public class ManualTest {
         } else if (requestedTasks.size() == 0) {
             System.out.println("The task with the name "+taskName+" doesn't exist. ");
         } else {
-            System.out.println("Which task do you want to delete? ");
-            int indexFromUser = whichTask(requestedTasks);
+            System.out.println("You have multiple tasks with this name. Which do you want to delete? Enter a number: ");
+            int indexFromUser = whichTask(requestedTasks)-1;
             if (indexFromUser < requestedTasks.size()) {
                 taskList.delete(requestedTasks.get(indexFromUser));
                 System.out.println("Task successfully deleted. ");
@@ -151,17 +152,29 @@ public class ManualTest {
         }
     }
 
+    private void showAllTaskNames() {
+        StringBuilder allTaskNames = new StringBuilder();
+        for (int i = 0; i < taskList.getLength(); i++) {
+            if (i == taskList.getLength()-1) {
+                allTaskNames.append(taskList.getTaskAtIndex(i).getTaskName());
+            } else allTaskNames.append(taskList.getTaskAtIndex(i).getTaskName()).append(", ");
+        }
+        System.out.println(allTaskNames);
+    }
+
     private int whichTask(List<Task> listOfTasks) {
         int length = listOfTasks.size();
         for (int index = 0; index < length; index++) {
             Task taskAtIndex = listOfTasks.get(index);
             System.out.format("%d - %s, date: %s, deadline: %s", index+1, taskAtIndex.getTaskName(), taskAtIndex.getDate().toString(), taskAtIndex.getDeadline().toString());
+            System.out.println();
         }
         return Integer.parseInt(scanner.nextLine());
     }
 
     private void editTask() {
         System.out.println("Name the task you want to edit: ");
+        showAllTaskNames();
         String taskToEdit = scanner.nextLine();
         List<Task> requestedTasks = taskList.getTaskWithName(taskToEdit);
         if (requestedTasks.size() == 0) {
@@ -227,16 +240,6 @@ public class ManualTest {
                 taskList.delete(task);
             }
         }
-    }
-
-    private TaskList getKanbanCategoryList(String kanbanLabel) {
-        if (Objects.equals(kanbanLabel, "to do")) {
-            return toDo;
-        } else if (Objects.equals(kanbanLabel, "doing")) {
-            return doing;
-        } else if (Objects.equals(kanbanLabel, "done")) {
-            return done;
-        } else return null; // TODO: ERROR
     }
 
     private void showTasks() {
