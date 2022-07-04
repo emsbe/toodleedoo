@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class TaskListTest {
+public class TaskManagerTest {
     TaskManager taskList;
     Task taskVacuum;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -25,25 +25,25 @@ public class TaskListTest {
     }
 
     @Test
-    void taskList_isEmpty_returnsTrue() {
+    void taskManager_isEmpty_returnsTrue() {
         assertThat(taskList.isEmpty()).isTrue();
     }
 
     @Test
-    void taskList_add_isEmptyReturnsFalse() {
+    void taskManager_add_isEmptyReturnsFalse() {
         taskList.add(taskVacuum);
         assertThat(taskList.isEmpty()).isFalse();
     }
 
     @Test
-    void taskList_deleteTask_isEmptyReturnsTrueAfterOneTaskIsAddedAndRemoved() {
+    void taskManager_deleteTask_isEmptyReturnsTrueAfterOneTaskIsAddedAndRemoved() {
         taskList.add(taskVacuum);
         taskList.delete(taskVacuum);
         assertThat(taskList.isEmpty()).isTrue();
     }
 
     @Test
-    void taskList_deleteTask_isEmptyReturnsFalseAfterTwoTasksAreAddedAndOneRemoved() {
+    void taskManager_deleteTask_isEmptyReturnsFalseAfterTwoTasksAreAddedAndOneRemoved() {
         taskList.add(taskVacuum);
         Task newTask = new Task("do OOP homework", dueDate, deadline);
         taskList.add(newTask);
@@ -52,21 +52,14 @@ public class TaskListTest {
     }
 
     @Test
-    void taskList_markAsDone_isEmptyReturnsTrueAfterOneTaskIsAddedAndRemoved() {
-        taskList.add(taskVacuum);
-        taskList.markAsDone(taskVacuum);
-        assertThat(taskList.isEmpty()).isTrue();
-    }
-
-    @Test
-    void taskList_getIndexOf_returns0AfterOneTaskIsAdded() {
+    void taskManager_getIndexOf_returns0AfterOneTaskIsAdded() {
         taskList.add(taskVacuum);
         int index = taskList.getIndexOf(taskVacuum);
         assertThat(index).isEqualTo(0);
     }
 
     @Test
-    void taskList_getIndexOf_returns1AfterThreeAddedAndSecondQueried() {
+    void taskManager_getIndexOf_returns1AfterThreeAddedAndSecondQueried() {
         taskList.add(taskVacuum);
         Task taskClean = new Task("clean bathroom", dueDate, deadline);
         Task taskStudy = new Task("study", dueDate, deadline);
@@ -77,12 +70,12 @@ public class TaskListTest {
     }
 
     @Test
-    void taskList_getIndexOf_catchesErrorBecauseTaskIsNotInTaskList() {
+    void taskManager_getIndexOf_catchesErrorBecauseTaskIsNotInTaskList() {
         assertThatThrownBy(() -> taskList.getIndexOf(taskVacuum)).isInstanceOf(AssertionError.class);
     }
 
     @Test
-    void taskList_changeTask_getTaskAtIndex_returnsNewTaskAtGivenIndex() {
+    void taskManager_changeTask_getTaskAtIndex_returnsNewTaskAtGivenIndex() {
         Task taskPython = new Task("Python", dueDate, deadline);
         taskList.add(taskPython);
         int index = taskList.getIndexOf(taskPython);
@@ -93,7 +86,7 @@ public class TaskListTest {
     }
 
     @Test
-    void taskList_changeTask_returnsPreviousTaskAtGivenIndex() {
+    void taskManager_changeTask_returnsPreviousTaskAtGivenIndex() {
         Task taskPython = new Task("Python", dueDate, deadline);
         taskList.add(taskPython);
         int index = taskList.getIndexOf(taskPython);
@@ -103,13 +96,13 @@ public class TaskListTest {
     }
 
     @Test
-    void taskList_getLength_OneTaskAdded_returns1() {
+    void taskManager_getLength_OneTaskAdded_returns1() {
         taskList.add(taskVacuum);
         assertThat(taskList.getLength()).isEqualTo(1);
     }
 
     @Test
-    void taskList_add_TaskAddedSecondWithEarlierDateIsAtIndex0() {
+    void taskManager_add_TaskAddedSecondWithEarlierDateIsAtIndex0() {
         Task taskToTest = new Task("call Mum", LocalDate.parse("05.06.2022", formatter), LocalDate.parse("08.06.2022", formatter));
         taskList.add(new Task("study", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("06.06.2022", formatter)));
         taskList.add(taskToTest);
@@ -117,13 +110,13 @@ public class TaskListTest {
     }
 
     @Test
-    void taskList_add_TaskAddedToEmptyList_NoErrorAddingToAnEmptyArrayList() {
+    void taskManager_add_TaskAddedToEmptyList_NoErrorAddingToAnEmptyArrayList() {
         taskList.add(taskVacuum);
         assertThat(taskList.getTaskAtIndex(0)).isEqualTo(taskVacuum);
     }
 
     @Test
-    void taskList_add_AddedTwoTasksThenThirdTask_NoErrorAddingToEndOfArrayList() {
+    void taskManager_add_AddedTwoTasksThenThirdTask_NoErrorAddingToEndOfArrayList() {
         Task taskToTest = new Task("call Mum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter));
         taskList.add(new Task("study", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("06.06.2022", formatter)));
         taskList.add(new Task("meet Friends", LocalDate.parse("06.06.2022", formatter), LocalDate.parse("06.06.2022", formatter)));
@@ -132,7 +125,7 @@ public class TaskListTest {
     }
 
     @Test
-    void taskList_sortBy_sortsCurrentStateOfTaskListByDeadlineIntoNewTaskList_returnsTaskWithEarliestDeadlineAtIndex0() {
+    void taskManager_sortBy_sortsCurrentStateOfTaskListByDeadlineIntoNewTaskList_returnsTaskWithEarliestDeadlineAtIndex0() {
         Task taskToTest = new Task("call Mum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter));
         taskList.add(new Task("study", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("15.06.2022", formatter)));
         taskList.add(new Task("meet Friends", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("14.06.2022", formatter)));
@@ -143,7 +136,7 @@ public class TaskListTest {
     }
 
     @Test
-    void taskList_sortBy_returnsTaskWithLatestDeadlineAtIndex2() {
+    void taskManager_sortBy_returnsTaskWithLatestDeadlineAtIndex2() {
         Task taskToTest = new Task("study", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("15.06.2022", formatter));
         taskList.add(new Task("call Mum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter)));
         taskList.add(new Task("meet Friends", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("14.06.2022", formatter)));
@@ -154,21 +147,21 @@ public class TaskListTest {
     }
 
     @Test
-    void taskList_getTaskWithName_returnsListWithOneTask() {
+    void taskManager_getTaskWithName_returnsListWithOneTask() {
         taskList.add(taskVacuum);
         taskList.add(new Task("call Mum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter)));
         assertThat(taskList.getTaskWithName("vacuum").size()).isEqualTo(1);
     }
 
     @Test
-    void taskList_getTaskWithName_returnsListWithTwoTasks() {
+    void taskManager_getTaskWithName_returnsListWithTwoTasks() {
         taskList.add(taskVacuum);
         taskList.add(new Task("vacuum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter)));
         assertThat(taskList.getTaskWithName("vacuum").size()).isEqualTo(2);
     }
 
     @Test
-    void taskList_getTaskWithName_returnsEmptyList() {
+    void taskManager_getTaskWithName_returnsEmptyList() {
         taskList.add(taskVacuum);
         assertThat(taskList.getTaskWithName("call Mum").size()).isEqualTo(0);
     }

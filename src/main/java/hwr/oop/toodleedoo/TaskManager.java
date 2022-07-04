@@ -69,13 +69,6 @@ public class TaskManager implements TaskList {
         });
     }
 
-
-    public void markAsDone(Task task) {
-        taskList.remove(task);
-        this.completedTasks = new ArrayList<>();
-        completedTasks.add(task); // TODO: löschen (auch Tests löschen, falls es die gibt)
-    }
-
     public int getIndexOf(Task task) {
         int index = taskList.indexOf(task);
         if (index == -1) {
