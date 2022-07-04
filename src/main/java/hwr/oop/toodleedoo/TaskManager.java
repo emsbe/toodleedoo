@@ -65,7 +65,6 @@ public class TaskManager implements TaskList {
                 } else return 0;
                 // TODO: Hier vielleicht eine Exception werfen, wenn ein Filter gegeben wird, nach dem nicht gefiltert werden kann?
             }
-            // TODO: eigentlich in Sorting enthalten
         });
     }
 

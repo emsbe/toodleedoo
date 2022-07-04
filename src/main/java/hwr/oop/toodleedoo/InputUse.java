@@ -1,6 +1,5 @@
 package hwr.oop.toodleedoo;
 
-import java.io.PrintStream;
 import java.util.Scanner;
 
 public class InputUse {

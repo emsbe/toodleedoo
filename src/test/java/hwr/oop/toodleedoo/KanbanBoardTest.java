@@ -21,13 +21,14 @@ public class KanbanBoardTest {
     private FileLoading fileLoading;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     ByteArrayOutputStream outputStream;
+    private final LocalDateTransformer transformDate = new LocalDateTransformer();
 
     @BeforeEach
     void setUp() {
-        taskCode = new Task("code", LocalDate.parse("26.06.2022", formatter), LocalDate.parse("01.07.2022", formatter));
-        taskCall = new Task("call Mum", LocalDate.parse("26.06.2022", formatter), LocalDate.parse("01.07.2022", formatter));
-        taskFood = new Task("prepare food", LocalDate.parse("26.06.2022", formatter), LocalDate.parse("01.07.2022", formatter));
-        taskGym = new Task("go to gym", LocalDate.parse("27.06.2022", formatter), LocalDate.parse("27.06.2022", formatter));
+        taskCode = new Task("code", transformDate.createLocalDate("26.06.2022"), transformDate.createLocalDate("01.07.2022"));
+        taskCall = new Task("call Mum", transformDate.createLocalDate("26.06.2022"), transformDate.createLocalDate("01.07.2022"));
+        taskFood = new Task("prepare food", transformDate.createLocalDate("26.06.2022"), transformDate.createLocalDate("01.07.2022"));
+        taskGym = new Task("go to gym", transformDate.createLocalDate("27.06.2022"), transformDate.createLocalDate("27.06.2022"));
 
         kanbanBoard = new KanbanBoard();
         fileSaving  = new FileSaving();

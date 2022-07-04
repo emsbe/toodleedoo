@@ -5,12 +5,13 @@ import java.util.Objects;
 
 public class Display {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    LocalDateTransformer transformDate = new LocalDateTransformer();
 
     public void showAllTasksIn(TaskManager taskList) {
         int length = taskList.getLength();
         for (int index = 0; index < length; index++) {
             Task task = taskList.getTaskAtIndex(index);
-            String output = String.format("%d - %s on %s, Deadline: %s", index+1, task.getTaskName(), task.getDate(), task.getDeadline());
+            String output = String.format("%d - %s on %s, Deadline: %s", index+1, task.getTaskName(), transformDate.getFormatDate(task.getDate()), transformDate.getFormatDate(task.getDeadline()));
             System.out.println(output);
         }
     }
@@ -22,9 +23,9 @@ public class Display {
             Task task = taskList.getTaskAtIndex(index);
             String givenDate = "";
             if (Objects.equals(view, "deadline")) {
-                givenDate = task.getDeadline().toString();
+                givenDate = transformDate.getFormatDate(task.getDeadline());
             } else if (Objects.equals(view, "date")) {
-                givenDate = task.getDate().toString();
+                givenDate = transformDate.getFormatDate(task.getDate());
             }
             System.out.println(String.format("%d - %s: %s for %s", index+1, givenDate, view, task.getTaskName()));
         }

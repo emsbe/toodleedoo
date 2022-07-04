@@ -14,12 +14,13 @@ public class TaskManagerTest {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     LocalDate dueDate;
     LocalDate deadline;
+    LocalDateTransformer transformDate = new LocalDateTransformer();
 
     @BeforeEach
     void setUp() {
         taskList = new TaskManager();
-        dueDate = LocalDate.parse("25.05.2022", formatter);
-        deadline = LocalDate.parse("27.05.2022", formatter);
+        dueDate = transformDate.createLocalDate("25.05.2022");
+        deadline = transformDate.createLocalDate("27.05.2022");
         taskVacuum = new Task("vacuum", dueDate, deadline);
 
     }
@@ -103,8 +104,8 @@ public class TaskManagerTest {
 
     @Test
     void taskManager_add_TaskAddedSecondWithEarlierDateIsAtIndex0() {
-        Task taskToTest = new Task("call Mum", LocalDate.parse("05.06.2022", formatter), LocalDate.parse("08.06.2022", formatter));
-        taskList.add(new Task("study", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("06.06.2022", formatter)));
+        Task taskToTest = new Task("call Mum", transformDate.createLocalDate("05.06.2022"), transformDate.createLocalDate("08.06.2022"));
+        taskList.add(new Task("study", transformDate.createLocalDate("07.06.2022"), transformDate.createLocalDate("06.06.2022")));
         taskList.add(taskToTest);
         assertThat(taskList.getTaskAtIndex(0)).isEqualTo(taskToTest);
     }
@@ -126,9 +127,9 @@ public class TaskManagerTest {
 
     @Test
     void taskManager_sortBy_sortsCurrentStateOfTaskListByDeadlineIntoNewTaskList_returnsTaskWithEarliestDeadlineAtIndex0() {
-        Task taskToTest = new Task("call Mum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter));
-        taskList.add(new Task("study", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("15.06.2022", formatter)));
-        taskList.add(new Task("meet Friends", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("14.06.2022", formatter)));
+        Task taskToTest = new Task("call Mum", transformDate.createLocalDate("12.06.2022"), transformDate.createLocalDate("13.06.2022"));
+        taskList.add(new Task("study", transformDate.createLocalDate("07.06.2022"), transformDate.createLocalDate("15.06.2022")));
+        taskList.add(new Task("meet Friends", transformDate.createLocalDate("07.06.2022"), transformDate.createLocalDate("14.06.2022")));
         taskList.add(taskToTest);
         TaskManager filteredTaskList = taskList;
         filteredTaskList.sortBy("deadline");
@@ -137,9 +138,9 @@ public class TaskManagerTest {
 
     @Test
     void taskManager_sortBy_returnsTaskWithLatestDeadlineAtIndex2() {
-        Task taskToTest = new Task("study", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("15.06.2022", formatter));
-        taskList.add(new Task("call Mum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter)));
-        taskList.add(new Task("meet Friends", LocalDate.parse("07.06.2022", formatter), LocalDate.parse("14.06.2022", formatter)));
+        Task taskToTest = new Task("study", transformDate.createLocalDate("07.06.2022"), transformDate.createLocalDate("15.06.2022"));
+        taskList.add(new Task("call Mum", transformDate.createLocalDate("12.06.2022"), transformDate.createLocalDate("13.06.2022")));
+        taskList.add(new Task("meet Friends", transformDate.createLocalDate("07.06.2022"), transformDate.createLocalDate("14.06.2022")));
         taskList.add(taskToTest);
         TaskManager filteredTaskList = taskList;
         filteredTaskList.sortBy("deadline");
@@ -149,14 +150,14 @@ public class TaskManagerTest {
     @Test
     void taskManager_getTaskWithName_returnsListWithOneTask() {
         taskList.add(taskVacuum);
-        taskList.add(new Task("call Mum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter)));
+        taskList.add(new Task("call Mum", transformDate.createLocalDate("12.06.2022"), transformDate.createLocalDate("13.06.2022")));
         assertThat(taskList.getTaskWithName("vacuum").size()).isEqualTo(1);
     }
 
     @Test
     void taskManager_getTaskWithName_returnsListWithTwoTasks() {
         taskList.add(taskVacuum);
-        taskList.add(new Task("vacuum", LocalDate.parse("12.06.2022", formatter), LocalDate.parse("13.06.2022", formatter)));
+        taskList.add(new Task("vacuum", transformDate.createLocalDate("12.06.2022"), transformDate.createLocalDate("13.06.2022")));
         assertThat(taskList.getTaskWithName("vacuum").size()).isEqualTo(2);
     }
 
