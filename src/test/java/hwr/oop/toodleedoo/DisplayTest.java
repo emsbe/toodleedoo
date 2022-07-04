@@ -32,13 +32,13 @@ public class DisplayTest {
     void display_showAll_showAllTasksInTaskList() {
         taskList.add(taskVacuum);
         taskList.add(new Task("call Begüm", dueDate, deadline));
-        String desiredOutput = String.format("1 - vacuum am 2022-05-25, Deadline: 2022-05-27%n"+"2 - call Begüm am 2022-06-05, Deadline: 2022-06-07");
+        String desiredOutput = String.format("1 - vacuum on 2022-05-25, Deadline: 2022-05-27%n"+"2 - call Begüm on 2022-06-05, Deadline: 2022-06-07");
         display.showAllTasksIn(taskList);
         assertThat(desiredOutput).isEqualTo(outputStream.toString().trim());
     }
 
     @Test
-    void display_showView() {
+    void display_showView_givesStringWithTwoTasksSortedByDeadline() {
         taskList.add(taskVacuum);
         taskList.add(new Task("call Begüm", LocalDate.parse("23.06.2022", formatter), LocalDate.parse("25.05.2022", formatter)));
         display.showViewOf(taskList, "deadline");
@@ -48,11 +48,30 @@ public class DisplayTest {
     }
 
     @Test
-    void display_showTaskAt() {
+    void display_showView_givesStringWithTwoTasksSortedByDate() {
+        taskList.add(taskVacuum);
+        taskList.add(new Task("call Begüm", LocalDate.parse("23.06.2022", formatter), LocalDate.parse("25.05.2022", formatter)));
+        display.showViewOf(taskList, "date");
+        String desiredOutput = String.format("1 - 2022-05-25: date for vacuum%n" +
+                "2 - 2022-06-23: date for call Begüm");
+        assertThat(desiredOutput).isEqualTo(outputStream.toString().trim());
+    }
+
+    @Test
+    void display_showTaskAt_showsOnlyOneTaskAtGivenDate() {
         taskList.add(taskVacuum);
         taskList.add(new Task("call Begüm", LocalDate.parse("23.06.2022", formatter), LocalDate.parse("25.05.2022", formatter)));
         display.showTaskAt(taskList,"23.06.2022");
-        String desiredOutput = "To Do on 23.06.2022: call Begüm";
+        String desiredOutput = String.format("23.06.2022:%n" + "- call Begüm");
         assertThat(desiredOutput).isEqualTo(outputStream.toString().trim());
+    }
+
+    @Test
+    void display_showTaskAt_showsMultipleTasksAtGivenDate() {
+        taskList.add(new Task("call Begüm", LocalDate.parse("23.05.2022", formatter), LocalDate.parse("25.05.2022", formatter)));
+        taskList.add(new Task("gym", LocalDate.parse("23.05.2022", formatter), LocalDate.parse("25.05.2022", formatter)));
+        display.showTaskAt(taskList, "23.05.2022");
+        String desiredOutput = String.format("23.05.2022:%n" + "- call Begüm%n" +
+                "- gym");
     }
 }
