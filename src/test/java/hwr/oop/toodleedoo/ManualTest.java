@@ -57,12 +57,20 @@ public class ManualTest {
     void manualTest() throws IOException {
         loadAllFiles();
         System.out.println("Welcome to toodleedoo <3 ");
+        newLine(1);
         System.out.println("These are your tasks for today: ");
+        newLine(1);
         display.showTaskAt(taskList, LocalDate.now().format(formatter));
         while (continueProcess) {
             enterCommand();
         }
 
+    }
+
+    private void newLine(int numberOfNewLines) {
+        for (int i = 0; i <= numberOfNewLines; i++) {
+            System.out.println("");
+        }
     }
 
     private void loadAllFiles() {
@@ -75,20 +83,22 @@ public class ManualTest {
 
     private void enterCommand() throws IOException {
         System.out.println("Enter your next command: ");
+        newLine(1);
         showAllCommands();
+        newLine(1);
         String command = scanner.nextLine();
         if (Objects.equals(command, "enter task")) {
             enterTask();
         } else if (Objects.equals(command, "delete task")) {
             deleteTask();
-        } else if (Objects.equals(command, "task done")) {
-            taskDone();
         } else if (Objects.equals(command, "edit task")) {
             editTask();
         } else if (Objects.equals(command, "kanban")) {
             kanban();
         } else if (Objects.equals(command, "show tasks")) {
             showTasks();
+        } else if (Objects.equals(command, "show tasks with filter")) {
+            showTasksWithFilter();
         } else if (Objects.equals(command, "what can I do?")) {
             showAllCommands();
         } else if (Objects.equals(command, "quit")) {
@@ -149,9 +159,6 @@ public class ManualTest {
             System.out.format("%d - %s, date: %s, deadline: %s", index+1, taskAtIndex.getTaskName(), taskAtIndex.getDate().toString(), taskAtIndex.getDeadline().toString());
         }
         return Integer.parseInt(scanner.nextLine());
-    }
-
-    private void taskDone() {
     }
 
     private void editTask() {
@@ -221,6 +228,7 @@ public class ManualTest {
 
     private void showTasks() {
         System.out.println("Which tasks do you want to see? Enter: today, this week, all ");
+        newLine(1);
         String tasksToShow = scanner.nextLine();
         LocalDate today = LocalDate.now();
         if (Objects.equals(tasksToShow, "today")) {
@@ -250,8 +258,19 @@ public class ManualTest {
 
     }
 
+    private void showTasksWithFilter() {
+        System.out.println("Through which filter do you want to view your tasks? ");
+        newLine(1);
+        System.out.println("Enter: deadline or date");
+        newLine(1);
+        String filter = scanner.nextLine();
+        if (Objects.equals(filter, "deadline") || Objects.equals(filter, "date")) {
+            display.showViewOf(taskList, filter);
+        } else System.out.println("Command not found. ");
+    }
+
     private void showAllCommands() {
-        System.out.println("-> enter task, delete task, task done, edit task, kanban, show tasks, what can I do?, quit");
+        System.out.println("-> enter task, delete task, task done, edit task, kanban, show tasks, show tasks with filter, what can I do?, quit");
     }
 
     private void quit() throws IOException {
