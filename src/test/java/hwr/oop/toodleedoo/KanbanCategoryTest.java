@@ -55,4 +55,6 @@ public class KanbanCategoryTest {
         assertThat(done.isEmpty()).isTrue();
 
     }
+
+    // TODO: mehr tests!!
 }

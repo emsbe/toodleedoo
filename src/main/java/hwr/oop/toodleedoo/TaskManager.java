@@ -2,10 +2,9 @@ package hwr.oop.toodleedoo;
 
 import java.util.*;
 
-public class TaskManager implements TaskList {
+public class TaskManager implements TaskList, Sorting {
     private List<Task> taskList;
     private Collection<Task> completedTasks;
-    Sorting sorting = new Sorting();
 
     public TaskManager() {
         this.taskList = new ArrayList<>();
@@ -18,7 +17,7 @@ public class TaskManager implements TaskList {
 
     @Override
     public void add(Task task) {
-        int index = sorting.getIndexToSortIn(taskList, task);
+        int index = getIndexToSortIn(taskList, task);
         taskList.add(index, task);
     }
 
@@ -55,9 +54,7 @@ public class TaskManager implements TaskList {
  */
 
     public void sortBy(String filter) throws IllegalArgumentException {
-        if (filter != "deadline" || filter != "date") {
-            throw new IllegalArgumentException("Error. Please enter deadline or date as a filter.");
-        } else {
+        if (Objects.equals(filter, "deadline") || Objects.equals(filter, "date")) {
             Collections.sort(taskList, new Comparator<Task>() {
                 @Override
                 public int compare(Task firstTask, Task secondTask) {
@@ -68,8 +65,9 @@ public class TaskManager implements TaskList {
                     } else return 0;
                 }
             });
+        } else {
+            throw new IllegalArgumentException("Error. Please enter deadline or date as a filter.");
         }
-
     }
 
     public int getIndexOf(Task task) {

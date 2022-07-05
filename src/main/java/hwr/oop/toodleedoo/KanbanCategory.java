@@ -3,9 +3,8 @@ package hwr.oop.toodleedoo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KanbanCategory implements TaskList {
+public class KanbanCategory implements TaskList, Sorting {
     private List<Task> kanbanCategory;
-    private Sorting sorting = new Sorting();
 
     public KanbanCategory() {
         this.kanbanCategory = new ArrayList<>();
@@ -18,7 +17,7 @@ public class KanbanCategory implements TaskList {
 
     @Override
     public void add(Task task) {
-        kanbanCategory.add(sorting.getIndexToSortIn(kanbanCategory, task), task);
+        kanbanCategory.add(getIndexToSortIn(kanbanCategory, task), task);
     }
 
     @Override

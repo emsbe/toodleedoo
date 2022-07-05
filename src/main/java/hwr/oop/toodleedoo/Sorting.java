@@ -5,9 +5,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-public class Sorting {
+public interface Sorting {
 
-    public int getIndexToSortIn(List<Task> taskList, Task task) {
+    default public int getIndexToSortIn(List<Task> taskList, Task task) {
         int length = taskList.size();
         for (int index = 0; index < length; index++) {
             if (isTaskEarlierOrEqualToTaskAtIndex(taskList, task, index)) {
