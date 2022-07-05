@@ -1,5 +1,6 @@
 package hwr.oop.toodleedoo;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class ManualTest {
      */
 
     @Test
-    //@Disabled("manual test")
+    @Disabled("manual test")
     void manualTest() throws IOException {
         loadAllFiles();
         System.out.println("Welcome to toodleedoo <3 ");

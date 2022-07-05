@@ -89,6 +89,19 @@ public class KanbanBoardTest {
     }
 
     @Test
+    void kanbanBoard_getKanbanCategoryOf_ReturnsDoingLabel() {
+        kanbanBoard.addToBoard("doing", taskCode);
+        String label = kanbanBoard.getKanbanCategoryOf(taskCode);
+        assertThat(label).isEqualTo("doing");
+    }
+    @Test
+    void kanbanBoard_getKanbanCategoryOf_ReturnsDoneLabel() {
+        kanbanBoard.addToBoard("done", taskCode);
+        String label = kanbanBoard.getKanbanCategoryOf(taskCode);
+        assertThat(label).isEqualTo("done");
+    }
+
+    @Test
     void kanbanBoard_getKanbanCategoryOf_ThrowsIllegalArgumentException() {
         assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> {
            kanbanBoard.getKanbanCategoryOf(new Task("test", transformDate.createLocalDate("03.07."), transformDate.createLocalDate("03.07.")));
@@ -102,14 +115,76 @@ public class KanbanBoardTest {
         fileSaving.saveToFile(toDo, "toDo");
         kanbanBoard.loadToBoard(fileLoading.loadFile("toDo"), "to do");
         assertThat(kanbanBoard.getToDo().getLength()).isEqualTo(1);
-    } // TODO: mehr Tests
+    }
+
+    @Test
+    void kanbanBoard_loadToBoard_moveToDoToDoing() throws IOException {
+        TaskList doing = new KanbanCategory();
+        doing.add(taskCode);
+        fileSaving.saveToFile(doing, "doing");
+        kanbanBoard.loadToBoard(fileLoading.loadFile("doing"), "doing");
+        assertThat(kanbanBoard.getDoing().getLength()).isEqualTo(1);
+    }
+
+   @Test
+    void kanbanBoard_loadToBoard_moveToDoToDone() throws IOException {
+        TaskList done = new KanbanCategory();
+        done.add(taskFood);
+        fileSaving.saveToFile(done, "done");
+        kanbanBoard.loadToBoard(fileLoading.loadFile("done"), "done");
+        assertThat(kanbanBoard.getDone().getLength()).isEqualTo(1);
+    }
+    // TODO: mehr Tests
 
     @Test
     void kanbanBoard_addToBoard_throwsIllegalArgumentException() {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
             kanbanBoard.addToBoard("lalala", taskCall);
         });
-
     }
 
+/////////////////////////////////////////////////////////////////
+/*
+    @Test
+    void kanbanBoard_deleteFromBoard() throws IOException {
+        TaskList done = new KanbanCategory();
+        done.add(taskGym);
+        fileSaving.saveToFile(done, "done");
+        kanbanBoard.loadToBoard(fileLoading.loadFile("done"), "done");
+        kanbanBoard.deleteFromBoard("done", taskGym);
+        assertThat(kanbanBoard.getDone().getLength()).isEqualTo(0);
+    }
+
+
+
+    @Test
+    void kanbanBoard_deleteFromBoardDoing() throws IOException {
+        TaskList doing = new KanbanCategory();
+        doing.add(taskGym);
+        fileSaving.saveToFile(doing, "doing");
+        kanbanBoard.loadToBoard(fileLoading.loadFile("doing"), "doing");
+        kanbanBoard.deleteFromBoard("doing", taskGym);
+        assertThat(kanbanBoard.getDoing().getLength()).isEqualTo(0);
+    }
+*/
+
+    @Test
+    void kanbanBoard_deleteFromBoardDoingWithWrongLabel() throws IOException {
+        TaskList doing = new KanbanCategory();
+        doing.add(taskGym);
+        fileSaving.saveToFile(doing, "doing");
+        kanbanBoard.loadToBoard(fileLoading.loadFile("doing"), "doing");
+        kanbanBoard.deleteFromBoard("done", taskGym);
+        assertThat(kanbanBoard.getDoing().getLength()).isEqualTo(1);
+    } // wenn man das falsche Label eingibt, wird es nicht gelöscht
+
+    @Test
+    void kanbanBoard_deleteFromBoardDoingWithWrongTask() throws IOException {
+        TaskList doing = new KanbanCategory();
+        doing.add(taskGym);
+        fileSaving.saveToFile(doing, "doing");
+        kanbanBoard.loadToBoard(fileLoading.loadFile("doing"), "doing");
+        kanbanBoard.deleteFromBoard("done", taskCode);
+        assertThat(kanbanBoard.getDoing().getLength()).isEqualTo(1);
+    } // wenn man die falsche Task eingibt, wird es nicht gelöscht
 }
