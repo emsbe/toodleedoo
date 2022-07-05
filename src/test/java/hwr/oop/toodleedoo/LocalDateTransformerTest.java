@@ -42,5 +42,10 @@ public class LocalDateTransformerTest {
         assertThat(localDateTransformer.createLocalDate(date)).isEqualTo(LocalDate.parse("22.05.2022", formatter));
     }
 
+    @Test
+    void localDateTransformer_createLocalDate_parameterToday_ReturnsLocalDateForToday() {
+        assertThat(localDateTransformer.createLocalDate("today")).isEqualTo(LocalDate.now());
+    }
+
 
 }

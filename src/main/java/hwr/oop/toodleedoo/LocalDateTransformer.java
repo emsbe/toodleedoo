@@ -16,6 +16,9 @@ public class LocalDateTransformer {
             } else if (date.length() == 8) {
                 date = date.substring(0, Math.min(date.length(), 6)) + LocalDate.now().getYear();
             }
+            if (date.equals("today")) {
+                date = LocalDate.now().format(formatter);
+            }
             return LocalDate.parse(date, formatter);
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("Invalid input. Please enter your date in the following format: dd.MM.YYYY");
