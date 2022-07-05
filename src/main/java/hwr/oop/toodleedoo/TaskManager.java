@@ -54,18 +54,22 @@ public class TaskManager implements TaskList {
 
  */
 
-    public void sortBy(String filter) {
-        Collections.sort(taskList, new Comparator<Task>() {
-            @Override
-            public int compare(Task firstTask, Task secondTask) {
-                if(Objects.equals(filter, "deadline")) {
-                    return firstTask.getDeadline().compareTo(secondTask.getDeadline());
-                } else if(Objects.equals(filter, "date")) {
-                    return firstTask.getDate().compareTo(secondTask.getDate());
-                } else return 0;
-                // TODO: Hier vielleicht eine Exception werfen, wenn ein Filter gegeben wird, nach dem nicht gefiltert werden kann?
-            }
-        });
+    public void sortBy(String filter) throws IllegalArgumentException {
+        if (filter != "deadline" || filter != "date") {
+            throw new IllegalArgumentException("Error. Please enter deadline or date as a filter.");
+        } else {
+            Collections.sort(taskList, new Comparator<Task>() {
+                @Override
+                public int compare(Task firstTask, Task secondTask) {
+                    if(Objects.equals(filter, "deadline")) {
+                        return firstTask.getDeadline().compareTo(secondTask.getDeadline());
+                    } else if(Objects.equals(filter, "date")) {
+                        return firstTask.getDate().compareTo(secondTask.getDate());
+                    } else return 0;
+                }
+            });
+        }
+
     }
 
     public int getIndexOf(Task task) {

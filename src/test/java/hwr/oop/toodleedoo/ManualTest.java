@@ -36,7 +36,6 @@ public class ManualTest {
     alle commands anzeigen --> type "What can i do?"
      */
 
-    // TODO: haben bisher noch nichts mit Deadlines gemacht: das auch noch anzeigen
     // TODO: Liste
     /*
     -	ManualTest: Funktionalitäten auslagern

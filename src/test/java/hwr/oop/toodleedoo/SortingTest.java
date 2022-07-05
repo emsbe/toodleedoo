@@ -27,8 +27,4 @@ public class SortingTest {
         taskList.add(taskVacuum);
     }
 
-
-
-    // TODO: Hier ist noch nicht alles getestet, weil ich nicht weiß, ob ich das in der Klasse haben möchte....
-
 }

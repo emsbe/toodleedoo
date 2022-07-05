@@ -1,5 +1,6 @@
 package hwr.oop.toodleedoo;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class KanbanBoard {
@@ -24,11 +25,11 @@ public class KanbanBoard {
     }
 
     public void addToBoard(String kanbanLabel, Task task) {
-        getListToMatch(kanbanLabel).add(task); // TODO: nullability
+        getListToMatch(kanbanLabel).add(task);
     }
 
     public void deleteFromBoard(String kanbanLabel, Task task) {
-        getListToMatch(kanbanLabel).delete(task); //TODO: nullability
+        getListToMatch(kanbanLabel).delete(task);
     }
 
     private TaskList getListToMatch(String label) {
@@ -38,12 +39,12 @@ public class KanbanBoard {
             return doing;
         } else if (Objects.equals(label, "done")){
             return done;
-        } else return null; // TODO: ERROR
+        } else throw new IllegalArgumentException("Error. Please enter to do, doing or done.");
     }
 
     public void move(Task task, String newKanbanLabel) {
         String oldKanbanLabel = getKanbanCategoryOf(task);
-        getListToMatch(oldKanbanLabel).delete(task); // TODO: nullability
+        getListToMatch(oldKanbanLabel).delete(task);
         getListToMatch(newKanbanLabel).add(task);
     }
 
@@ -93,7 +94,7 @@ public class KanbanBoard {
             return "doing";
         } else if (loopThroughCategory(done, task)) {
             return "done";
-        } else return "error"; //TODO: Raise Error
+        } else throw new NoSuchElementException("Error. Task cannot be found in kanban board.");
     }
 
     private boolean loopThroughCategory(TaskList taskList, Task task) {

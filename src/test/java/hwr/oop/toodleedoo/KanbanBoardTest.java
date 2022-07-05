@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -88,6 +89,13 @@ public class KanbanBoardTest {
     }
 
     @Test
+    void kanbanBoard_getKanbanCategoryOf_ThrowsIllegalArgumentException() {
+        assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> {
+           kanbanBoard.getKanbanCategoryOf(new Task("test", transformDate.createLocalDate("03.07."), transformDate.createLocalDate("03.07.")));
+        });
+    }
+
+    @Test
     void kanbanBoard_loadToBoard_() throws IOException {
         TaskList toDo = new KanbanCategory();
         toDo.add(taskFood);
@@ -95,5 +103,13 @@ public class KanbanBoardTest {
         kanbanBoard.loadToBoard(fileLoading.loadFile("toDo"), "to do");
         assertThat(kanbanBoard.getToDo().getLength()).isEqualTo(1);
     } // TODO: mehr Tests
+
+    @Test
+    void kanbanBoard_addToBoard_throwsIllegalArgumentException() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            kanbanBoard.addToBoard("lalala", taskCall);
+        });
+
+    }
 
 }

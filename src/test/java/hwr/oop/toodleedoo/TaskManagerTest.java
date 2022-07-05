@@ -148,6 +148,14 @@ public class TaskManagerTest {
     }
 
     @Test
+    void taskManager_sortBy_throwIllegalArgumentException() {
+        taskList.add(new Task("meet Friends", transformDate.createLocalDate("07.06.2022"), transformDate.createLocalDate("14.06.2022")));
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+            taskList.sortBy("label");
+        });
+    }
+
+    @Test
     void taskManager_getTaskWithName_returnsListWithOneTask() {
         taskList.add(taskVacuum);
         taskList.add(new Task("call Mum", transformDate.createLocalDate("12.06.2022"), transformDate.createLocalDate("13.06.2022")));
