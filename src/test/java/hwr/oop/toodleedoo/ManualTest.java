@@ -12,21 +12,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ManualTest {
 
-    private Scanner scanner = new Scanner(System.in);
-    private InputUse input = new InputUse();
-    private ManageInput manageInput = new ManageInput();
+    private final Scanner scanner = new Scanner(System.in);
+    private final InputUse input = new InputUse();
+    private final ManageInput manageInput = new ManageInput();
     private TaskManager taskList = new TaskManager();
     private TaskList toDo = new KanbanCategory();
     private TaskList doing = new KanbanCategory();
     private TaskList done = new KanbanCategory();
-    private FileLoading fileLoading = new FileLoading();
-    private FileSaving fileSaving = new FileSaving();
+    private final FileLoading fileLoading = new FileLoading();
+    private final FileSaving fileSaving = new FileSaving();
     private KanbanBoard kanbanBoard;
-    private Display display = new Display();
-
+    private final Display display = new Display();
+    private final LocalDateTransformer transformDate = new LocalDateTransformer();
     private boolean continueProcess = true;
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    LocalDate today = transformDate.createLocalDate("today");
 
     /*
     Begrüßung --> "Welcome to toodleedoo <3"
@@ -56,12 +56,11 @@ public class ManualTest {
         System.out.println("Welcome to toodleedoo <3 ");
         newLine(1);
         System.out.println("These are your tasks for today: ");
-        display.showTaskAt(taskList, LocalDate.now().format(formatter));
+        display.showTaskAt(taskList, transformDate.getFormatDate(transformDate.createLocalDate("today")));
         newLine(1);
         while (continueProcess) {
             enterCommand();
         }
-
     }
 
     private void loadAllFiles() {
@@ -70,6 +69,8 @@ public class ManualTest {
         kanbanBoard.loadToBoard(fileLoading.loadFile("toDo"), "to do");
         kanbanBoard.loadToBoard(fileLoading.loadFile("doing"), "doing");
         kanbanBoard.loadToBoard(fileLoading.loadFile("done"), "done");
+        newLine(3);
+        System.out.println("------------------------------------------------------------------");
     }
 
     private void newLine(int numberOfNewLines) {
@@ -81,8 +82,95 @@ public class ManualTest {
     private void enterCommand() throws IOException {
         System.out.println("Enter your next command: ");
         showAllCommands();
+        callCommandMethod(scanner.nextLine());
+    }
+
+    private void enterTask() {
+        try {
+            Task task = manageInput.createTask();
+            taskList.add(task);
+            System.out.println("Do you want to save the task to kanban? (yes/no) ");
+            saveToKanban(scanner.nextLine().toLowerCase(), task);
+        } catch (IllegalArgumentException e) {
+            newLine(1);
+            System.out.println(e.getMessage());
+            newLine(1);
+        }
+    }
+
+    private void deleteTask() {
+        System.out.println("Which task do you want to delete? ");
+        showAllTaskNames();
+        Task taskToDelete = getTask(scanner.nextLine(), "delete");
+        deleteFromAllTaskLists(taskToDelete);
+    }
+
+    private void editTask() {
+        System.out.println("Name the task you want to edit: ");
+        showAllTaskNames();
+        Task taskToEdit = getTask(scanner.nextLine(), "edit");
+        if (taskToEdit != null) {
+            Task updatedTask = getUpdatedTaskFromUser();
+            if (taskInKanban(taskToEdit)) {
+                kanbanBoard.addToBoard(kanbanBoard.getKanbanCategoryOf(taskToEdit), updatedTask);
+            }
+            deleteFromAllTaskLists(taskToEdit);
+            taskList.add(updatedTask);
+            System.out.println("Your task update was successful. ");
+        }
+    }
+
+    private void kanban() {
+        System.out.println("What do you want to do with kanban: show or move task ");
+        String userAnswer = scanner.nextLine();
+        if (Objects.equals(userAnswer, "show")) {
+            kanbanBoard.show();
+        } else if (Objects.equals(userAnswer, "move task")) {
+            System.out.println("Which task do you want to move? ");
+            showAllTaskNames();
+            moveTask();
+        } else {
+            System.out.println("Invalid command. Please try again. ");
+        }
+    }
+
+    private void showTasks() {
+        System.out.println("Which tasks do you want to see? Enter: today, this week, all ");
+        String tasksToShow = scanner.nextLine();
+        if (Objects.equals(tasksToShow, "today")) {
+            showTasksToday();
+        } else if (Objects.equals(tasksToShow, "this week")) {
+            showTasksThisWeek();
+        } else if (Objects.equals(tasksToShow, "all")) {
+            showAllTasks();
+        } else {
+            System.out.println("Invalid input. Please enter: today, this week, this month, all. ");
+        }
+    }
+
+    private void showTasksWithFilter() {
+        System.out.println("Through which filter do you want to view your tasks? ");
+        System.out.println("Enter: deadline or date");
+        String filter = scanner.nextLine();
+        if (Objects.equals(filter, "deadline") || Objects.equals(filter, "date")) {
+            display.showViewOf(taskList, filter);
+        } else System.out.println("Command not found. ");
+    }
+
+    private void showAllCommands() {
+        System.out.println("-> enter task, delete task, task done, edit task, kanban, show tasks, show tasks with filter, what can I do?, quit");
+    }
+
+    private void quit() throws IOException {
+        fileSaving.saveToFile(taskList, "taskList");
+        fileSaving.saveToFile(kanbanBoard.getToDo(), "toDo");
+        fileSaving.saveToFile(kanbanBoard.getDoing(), "doing");
+        fileSaving.saveToFile(kanbanBoard.getDone(), "done");
+        continueProcess = false;
+    }
+
+    private void callCommandMethod(String command) throws IOException {
         newLine(1);
-        String command = scanner.nextLine();
         if (Objects.equals(command, "enter task")) {
             enterTask();
         } else if (Objects.equals(command, "delete task")) {
@@ -102,15 +190,9 @@ public class ManualTest {
         } else {
             System.out.println("Command not found!");
         }
-
     }
 
-    private void enterTask() {
-        Task task = manageInput.createTask();
-        taskList.add(task);
-
-        System.out.println("Do you want to save the task to kanban? (yes/no) ");
-        String answer = scanner.nextLine().toLowerCase();
+    private void saveToKanban(String answer, Task task) {
         if (answer.equals("yes")) {
             boolean addedToKanban = false;
             while (!addedToKanban) {
@@ -131,33 +213,46 @@ public class ManualTest {
         }
     }
 
-    private void deleteTask() {
-        System.out.println("Which task do you want to delete? ");
-        showAllTaskNames();
-        String taskName = scanner.nextLine();
+    private Task getTask(String taskName, String action) {
         List<Task> requestedTasks = taskList.getTaskWithName(taskName);
         if (requestedTasks.size() == 1) {
-            taskList.delete(requestedTasks.get(0));
-            deleteFromKanban(requestedTasks.get(0));
-            System.out.println("Task successfully deleted. ");
-        } else if (requestedTasks.size() == 0) {
-            System.out.println("The task with the name "+taskName+" doesn't exist. ");
-        } else {
-            System.out.println("You have multiple tasks with this name. Which do you want to delete? Enter a number: ");
+            return requestedTasks.get(0);
+        } else if (requestedTasks.size() > 1) {
+            System.out.println("You have multiple tasks with this name. Which do you want to " + action + "? Enter a number: ");
             int indexFromUser = whichTask(requestedTasks)-1;
-            if (indexFromUser < requestedTasks.size()) {
-                taskList.delete(requestedTasks.get(indexFromUser));
-                deleteFromKanban(requestedTasks.get(indexFromUser));
-                System.out.println("Task successfully deleted. ");
-            } else {
-                System.out.println("Task couldn't be deleted. Index out of bounds. ");
+            if (indexFromUser >= requestedTasks.size()) {
+                System.out.println("Cannot " + action + " task. Index out of bounds. ");
+                return null;
             }
+            return requestedTasks.get(indexFromUser);
+        } else {
+            System.out.println("The task with the name "+taskName+" doesn't exist. ");
+            return null;
+        }
+    }
+
+    private void deleteFromAllTaskLists(Task taskToDelete) {
+        if (taskToDelete != null) {
+            taskList.delete(taskToDelete);
+            if (taskInKanban(taskToDelete)) {
+                deleteFromKanban(taskToDelete);
+            }
+            System.out.println("Task successfully deleted. ");
         }
     }
 
     private void deleteFromKanban(Task task) {
         String kanbanLabel = kanbanBoard.getKanbanCategoryOf(task);
         kanbanBoard.deleteFromBoard(kanbanLabel, task);
+    }
+
+    private boolean taskInKanban(Task task) {
+        try {
+            kanbanBoard.getKanbanCategoryOf(task);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     private void showAllTaskNames() {
@@ -180,73 +275,28 @@ public class ManualTest {
         return Integer.parseInt(scanner.nextLine());
     }
 
-    private void editTask() {
-        System.out.println("Name the task you want to edit: ");
-        showAllTaskNames();
-        String taskToEdit = scanner.nextLine();
-        List<Task> requestedTasks = taskList.getTaskWithName(taskToEdit);
-        if (requestedTasks.size() == 0) {
-            System.out.println("Task doesn't exist in your task list.");
-        } else if (requestedTasks.size() > 1) {
-            int indexFromUser = whichTask(requestedTasks);
-            if (indexFromUser < requestedTasks.size()) {
-                taskList.delete(requestedTasks.get(indexFromUser));
-                Task updatedTask = getUpdatedTaskFromUser();
-                taskList.add(updatedTask);
-                editTaskInKanban(requestedTasks.get(indexFromUser), updatedTask);
-                System.out.println("Your task update was successful. ");
-            } else System.out.println("Couldn't edit task. Index out of bounds. ");
-        } else {
-            taskList.delete(requestedTasks.get(0));
-            Task updatedTask = getUpdatedTaskFromUser();
-            taskList.add(updatedTask);
-            editTaskInKanban(requestedTasks.get(0), updatedTask);
-            System.out.println("Your task update was successful. ");
-        }
-    }
-
     private Task getUpdatedTaskFromUser() {
         System.out.println("Please enter the updated information for your task: ");
-        return manageInput.createTask();
-    }
-
-    private void editTaskInKanban(Task task, Task updatedTask) {
-        String kanbanLabel = kanbanBoard.getKanbanCategoryOf(task);
-        kanbanBoard.deleteFromBoard(kanbanLabel, task);
-        kanbanBoard.addToBoard(kanbanLabel, updatedTask);
-    }
-
-    private void kanban() {
-        System.out.println("What do you want to do with kanban: show or move task ");
-        String userAnswer = scanner.nextLine();
-        if (Objects.equals(userAnswer, "show")) {
-            kanbanBoard.show();
-        } else if (Objects.equals(userAnswer, "move task")) {
-            System.out.println("Which task do you want to move? ");
-            String taskToMove = scanner.nextLine();
-            List<Task> requestedTasks = taskList.getTaskWithName(taskToMove);
-            if (requestedTasks.size() > 1) {
-                int indexFromUser = whichTask(requestedTasks);
-                moveToNewLabel(indexFromUser, requestedTasks);
-            } else if (requestedTasks.size() == 1) {
-                moveToNewLabel(0, requestedTasks);
-            } else System.out.println("The task doesn't exist. Sorry. ");
-        } else {
-            System.out.println("Invalid command. Please try again. ");
+        boolean inputCorrect = false;
+        while (!inputCorrect) {
+            try {
+                Task task = manageInput.createTask();
+                inputCorrect = true;
+                return task;
+            } catch (IllegalArgumentException e) {
+                newLine(1);
+                System.out.println(e.getMessage());
+                newLine(1);
+            }
         }
+        return null;
     }
 
-    private void moveToNewLabel(int index, List<Task> tasks) {
-        String newKanbanLabel = getLabel();
-        Task taskToBeMoved = tasks.get(index);
-        kanbanBoard.move(taskToBeMoved, newKanbanLabel);
-        alsoDelete(newKanbanLabel, taskToBeMoved);
-        kanbanBoard.show();
-    }
-
-    private String getLabel() {
-        System.out.println("To which label do you want to move your task? ");
-        return scanner.nextLine();
+    private void moveTask() {
+        Task taskToMove = getTask(scanner.nextLine(), "move");
+        String newLabel = getLabel();
+        kanbanBoard.move(taskToMove, newLabel);
+        alsoDelete(newLabel, taskToMove);
     }
 
     private void alsoDelete(String newKanbanLabel, Task task) {
@@ -259,59 +309,35 @@ public class ManualTest {
         }
     }
 
-    private void showTasks() {
-        System.out.println("Which tasks do you want to see? Enter: today, this week, all ");
-        newLine(1);
-        String tasksToShow = scanner.nextLine();
-        LocalDate today = LocalDate.now();
-        if (Objects.equals(tasksToShow, "today")) {
-            display.showTaskAt(taskList, today.format(formatter));
-        } else if (Objects.equals(tasksToShow, "this week")) {
-            List<String> weekDays = new ArrayList<>(List.of("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"));
-            int lengthWeek = weekDays.size() -1;
-            DayOfWeek currentWeekDay = LocalDate.now().getDayOfWeek();
-            int daysInWeekLeft = 0;
-            for (int i = 0; i < weekDays.size(); i++) {
-                if (Objects.equals(weekDays.get(i), currentWeekDay.toString())) {
-                    daysInWeekLeft = lengthWeek - i;
-                }
+    private String getLabel() {
+        System.out.println("To which label do you want to move your task? ");
+        return scanner.nextLine();
+    }
+
+    private void showTasksToday() {
+        display.showTaskAt(taskList, transformDate.getFormatDate(today));
+    }
+
+    private void showTasksThisWeek() {
+        List<String> weekDays = new ArrayList<>(List.of("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"));
+        int lengthWeek = weekDays.size() -1;
+        DayOfWeek currentWeekDay = LocalDate.now().getDayOfWeek();
+        int daysInWeekLeft = 0;
+        for (int i = 0; i < weekDays.size(); i++) {
+            if (Objects.equals(weekDays.get(i), currentWeekDay.toString())) {
+                daysInWeekLeft = lengthWeek - i;
             }
-            display.showTaskAt(taskList, today.format(formatter));
-            if (daysInWeekLeft != 0) {
-                for (int i = 1; i <= daysInWeekLeft; i++) {
-                    display.showTaskAt(taskList, today.plusDays(i).format(formatter));
-                }
-            } else System.out.println("Nothing more to show. The week is already over. ");
-
-        } else if (Objects.equals(tasksToShow, "all")) {
-            display.showAllTasksIn(taskList);
-        } else {
-            System.out.println("Invalid input. Please enter: today, this week, this month, all. ");
         }
-
+        display.showTaskAt(taskList, transformDate.getFormatDate(today));
+        if (daysInWeekLeft != 0) {
+            for (int i = 1; i <= daysInWeekLeft; i++) {
+                display.showTaskAt(taskList, transformDate.getFormatDate(today.plusDays(i)));
+            }
+        } else System.out.println("Nothing more to show. The week is already over. ");
     }
 
-    private void showTasksWithFilter() {
-        System.out.println("Through which filter do you want to view your tasks? ");
-        newLine(1);
-        System.out.println("Enter: deadline or date");
-        newLine(1);
-        String filter = scanner.nextLine();
-        if (Objects.equals(filter, "deadline") || Objects.equals(filter, "date")) {
-            display.showViewOf(taskList, filter);
-        } else System.out.println("Command not found. ");
-    }
-
-    private void showAllCommands() {
-        System.out.println("-> enter task, delete task, task done, edit task, kanban, show tasks, show tasks with filter, what can I do?, quit");
-    }
-
-    private void quit() throws IOException {
-        fileSaving.saveToFile(taskList, "taskList");
-        fileSaving.saveToFile(kanbanBoard.getToDo(), "toDo");
-        fileSaving.saveToFile(kanbanBoard.getDoing(), "doing");
-        fileSaving.saveToFile(kanbanBoard.getDone(), "done");
-        continueProcess = false;
+    private void showAllTasks() {
+        display.showAllTasksIn(taskList);
     }
 }
 
