@@ -42,8 +42,6 @@ public class ManualTest {
     -	ManualTest: Funktionalitäten auslagern
 -	ManualTest: als ManualTest markieren
 -	Alles in Package toodleedoo und Unterpackages packen
--	TaskListOrganizer umbenennen -> z.B. TaskList in TaskManager, TaskListOrganizer in TaskList
--	TaskList.java sortBy() in Sorting aufrufen
 -	Refactoring im Allgemeinen
 -	Interfaces anwenden?
 -	Mehr Tests schreiben
@@ -115,17 +113,21 @@ public class ManualTest {
         System.out.println("Do you want to save the task to kanban? (yes/no) ");
         String answer = scanner.nextLine().toLowerCase();
         if (answer.equals("yes")) {
-            System.out.println("Which label: to do, doing, done? ");
-            String kanbanLabel = scanner.nextLine().toLowerCase();
-            if (kanbanLabel.equals("to do")) {
-                kanbanBoard.addToBoard("to do", task);
-            } else if (kanbanLabel.equals("doing")) {
-                kanbanBoard.addToBoard("doing", task);
-            } else if (kanbanLabel.equals("done")) {
-                kanbanBoard.addToBoard("done", task);
-            } else {
-                System.out.println("Invalid label! ");
-                // TODO: Wie schaffen wir hier, dass alles neu gestartet wird? (nur hier drin)
+            boolean addedToKanban = false;
+            while (!addedToKanban) {
+                addedToKanban = true;
+                System.out.println("Which label: to do, doing, done? ");
+                String kanbanLabel = scanner.nextLine().toLowerCase();
+                if (kanbanLabel.equals("to do")) {
+                    kanbanBoard.addToBoard("to do", task);
+                } else if (kanbanLabel.equals("doing")) {
+                    kanbanBoard.addToBoard("doing", task);
+                } else if (kanbanLabel.equals("done")) {
+                    kanbanBoard.addToBoard("done", task);
+                } else {
+                    System.out.println("Invalid label! ");
+                    addedToKanban = false;
+                }
             }
         }
     }
@@ -137,6 +139,7 @@ public class ManualTest {
         List<Task> requestedTasks = taskList.getTaskWithName(taskName);
         if (requestedTasks.size() == 1) {
             taskList.delete(requestedTasks.get(0));
+            deleteFromKanban(requestedTasks.get(0));
             System.out.println("Task successfully deleted. ");
         } else if (requestedTasks.size() == 0) {
             System.out.println("The task with the name "+taskName+" doesn't exist. ");
@@ -145,11 +148,17 @@ public class ManualTest {
             int indexFromUser = whichTask(requestedTasks)-1;
             if (indexFromUser < requestedTasks.size()) {
                 taskList.delete(requestedTasks.get(indexFromUser));
+                deleteFromKanban(requestedTasks.get(indexFromUser));
                 System.out.println("Task successfully deleted. ");
             } else {
                 System.out.println("Task couldn't be deleted. Index out of bounds. ");
             }
         }
+    }
+
+    private void deleteFromKanban(Task task) {
+        String kanbanLabel = kanbanBoard.getKanbanCategoryOf(task);
+        kanbanBoard.deleteFromBoard(kanbanLabel, task);
     }
 
     private void showAllTaskNames() {
@@ -183,20 +192,29 @@ public class ManualTest {
             int indexFromUser = whichTask(requestedTasks);
             if (indexFromUser < requestedTasks.size()) {
                 taskList.delete(requestedTasks.get(indexFromUser));
-                taskList.add(getUpdatedTaskFromUser());
+                Task updatedTask = getUpdatedTaskFromUser();
+                taskList.add(updatedTask);
+                editTaskInKanban(requestedTasks.get(indexFromUser), updatedTask);
                 System.out.println("Your task update was successful. ");
             } else System.out.println("Couldn't edit task. Index out of bounds. ");
         } else {
             taskList.delete(requestedTasks.get(0));
-            taskList.add(getUpdatedTaskFromUser());
+            Task updatedTask = getUpdatedTaskFromUser();
+            taskList.add(updatedTask);
+            editTaskInKanban(requestedTasks.get(0), updatedTask);
             System.out.println("Your task update was successful. ");
         }
-
     }
 
     private Task getUpdatedTaskFromUser() {
         System.out.println("Please enter the updated information for your task: ");
         return manageInput.createTask();
+    }
+
+    private void editTaskInKanban(Task task, Task updatedTask) {
+        String kanbanLabel = kanbanBoard.getKanbanCategoryOf(task);
+        kanbanBoard.deleteFromBoard(kanbanLabel, task);
+        kanbanBoard.addToBoard(kanbanLabel, updatedTask);
     }
 
     private void kanban() {
