@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class TaskManagerTest {
+public class GeneralTaskListTest {
     TaskManager taskList;
     Task taskVacuum;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -18,7 +18,7 @@ public class TaskManagerTest {
 
     @BeforeEach
     void setUp() {
-        taskList = new TaskManager();
+        taskList = new GeneralTaskList();
         dueDate = transformDate.createLocalDate("25.05.2022");
         deadline = transformDate.createLocalDate("27.05.2022");
         taskVacuum = new Task("vacuum", dueDate, deadline);

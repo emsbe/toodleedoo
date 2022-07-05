@@ -6,17 +6,12 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class ManualTest {
 
     private final Scanner scanner = new Scanner(System.in);
-    private final InputUse input = new InputUse();
-    private final ManageInput manageInput = new ManageInput();
-    private TaskManager taskList = new TaskManager();
+    private TaskManager taskList = new GeneralTaskList();
     private TaskList toDo = new KanbanCategory();
     private TaskList doing = new KanbanCategory();
     private TaskList done = new KanbanCategory();
@@ -28,27 +23,6 @@ public class ManualTest {
     private boolean continueProcess = true;
 
     LocalDate today = transformDate.createLocalDate("today");
-
-    /*
-    Begrüßung --> "Welcome to toodleedoo <3"
-    Tasks für heute anzeigen --> "Deine Tasks für heute sind: "
-    "Enter your next command: " (Liste für alle möglichen commands)
-    z.B.: addTask, moveTask, deleteTask etc.
-    alle commands anzeigen --> type "What can i do?"
-     */
-
-    // TODO: Liste
-    /*
-    -	ManualTest: Funktionalitäten auslagern
--	ManualTest: als ManualTest markieren
--	Alles in Package toodleedoo und Unterpackages packen
--	Refactoring im Allgemeinen
--	Interfaces anwenden?
--	Mehr Tests schreiben
--	UML-Diagramm
--	README
-
-     */
 
     @Test
     @Disabled("manual test")
@@ -88,7 +62,7 @@ public class ManualTest {
 
     private void enterTask() {
         try {
-            Task task = manageInput.createTask();
+            Task task = createTask();
             taskList.add(task);
             System.out.println("Do you want to save the task to kanban? (yes/no) ");
             saveToKanban(scanner.nextLine().toLowerCase(), task);
@@ -193,6 +167,31 @@ public class ManualTest {
         }
     }
 
+    private String enterTaskName() {
+        System.out.println("Enter a task: ");
+        String task = scanner.nextLine();
+        System.out.println("you've entered: " + task);
+        return task;
+    }
+
+    private String enterDate() {
+        System.out.println("Enter a date for the task: ");
+        String date = scanner.nextLine();
+        System.out.println("you've entered: " + date);
+        return date;
+    }
+
+    private String enterDeadline() {
+        System.out.println("Enter a deadline for the task: ");
+        String date = scanner.nextLine();
+        System.out.println("you've entered: " + date);
+        return date;
+    }
+
+    private Task createTask() {
+        return new Task(enterTaskName(), transformDate.createLocalDate(enterDate()), transformDate.createLocalDate(enterDeadline()));
+    }
+
     private void saveToKanban(String answer, Task task) {
         if (answer.equals("yes")) {
             boolean addedToKanban = false;
@@ -281,7 +280,7 @@ public class ManualTest {
         boolean inputCorrect = false;
         while (!inputCorrect) {
             try {
-                Task task = manageInput.createTask();
+                Task task = createTask();
                 inputCorrect = true;
                 return task;
             } catch (IllegalArgumentException e) {

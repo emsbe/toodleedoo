@@ -2,11 +2,10 @@ package hwr.oop.toodleedoo;
 
 import java.util.*;
 
-public class TaskManager implements TaskList, Sorting {
+public class GeneralTaskList implements TaskManager, Sorting {
     private List<Task> taskList;
-    private Collection<Task> completedTasks;
 
-    public TaskManager() {
+    public GeneralTaskList() {
         this.taskList = new ArrayList<>();
     }
 
@@ -35,24 +34,8 @@ public class TaskManager implements TaskList, Sorting {
     public int getLength() {
         return taskList.size();
     }
-/*
-    private int getIndexToSortIn(Task task) {
-        int length = taskList.size();
-        for (int index = 0; index < length; index++) {
-            if (isTaskEarlierOrEqualToTaskAtIndex(task, index)) {
-                return index;
-            }
-        }
-        //insert at end of array list (or into empty array list)
-        return length;
-    }
 
-    private boolean isTaskEarlierOrEqualToTaskAtIndex(Task task, int index) {
-        return task.compareTo(taskList.get(index)) <= 0;
-    }
-
- */
-
+    @Override
     public void sortBy(String filter) throws IllegalArgumentException {
         if (Objects.equals(filter, "deadline") || Objects.equals(filter, "date")) {
             Collections.sort(taskList, new Comparator<Task>() {
@@ -70,6 +53,7 @@ public class TaskManager implements TaskList, Sorting {
         }
     }
 
+    @Override
     public int getIndexOf(Task task) {
         int index = taskList.indexOf(task);
         if (index == -1) {
@@ -78,10 +62,12 @@ public class TaskManager implements TaskList, Sorting {
         return index;
     }
 
+    @Override
     public Task changeTask(int index, Task newTask) {
         return taskList.set(index, newTask);
     }
 
+    @Override
     public List<Task> getTaskWithName(String taskName) {
         List<Task> requestedTasks = new ArrayList<>();
         for (Task task: taskList) {
@@ -91,6 +77,4 @@ public class TaskManager implements TaskList, Sorting {
         }
         return requestedTasks;
     }
-
-
 }

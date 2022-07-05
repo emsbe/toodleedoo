@@ -7,7 +7,7 @@ import java.util.Objects;
 public class FileSaving {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public void saveToFile(TaskList taskList, String listType) throws IOException {
+    public void saveToFile(TaskList taskList, String listType) {
         if (Objects.equals(listType, "taskList") || Objects.equals(listType, "toDo") || Objects.equals(listType, "doing") || Objects.equals(listType, "done")) {
             try {
                 File file = new File("src/test/java/hwr/oop/toodleedoo/resources/" + listType + ".txt");
@@ -26,19 +26,6 @@ public class FileSaving {
         } else {
             System.out.println("Invalid list type.");
         }
-
-
-        /*
-        try (ObjectOutputStream out = new ObjectOutputStream((new FileOutputStream("src/test/java/hwr/oop/resources/"+listType+".txt")))) {
-            for (int index = 0; index < taskList.getLength(); index++) {
-                out.writeObject(taskToString(taskList.getTaskAtIndex(index))+String.format("%n"));
-            }
-            System.out.println("Save successful.");
-        } catch (IOException e) {
-            System.out.println("File to write the Task list in couldn't be found. Try again.");
-        }
-
-         */
     }
 
     private String taskToString(Task task) {

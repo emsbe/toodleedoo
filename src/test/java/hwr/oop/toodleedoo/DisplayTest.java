@@ -22,7 +22,7 @@ public class DisplayTest {
 
     @BeforeEach
     void setUp() {
-        taskList = new TaskManager();
+        taskList = new GeneralTaskList();
         taskVacuum = new Task("vacuum", transformDate.createLocalDate("25.05.2022"), transformDate.createLocalDate("27.05.2022"));
         call = new Task("call Begüm", transformDate.createLocalDate("23.05.2022"), transformDate.createLocalDate("25.05.2022"));
         display = new Display();

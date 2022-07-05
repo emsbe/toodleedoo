@@ -1,9 +1,11 @@
 package hwr.oop.toodleedoo;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.time.LocalDate;
@@ -20,7 +22,6 @@ public class KanbanBoardTest {
     private Task taskGym;
     private FileSaving fileSaving;
     private FileLoading fileLoading;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     ByteArrayOutputStream outputStream;
     private final LocalDateTransformer transformDate = new LocalDateTransformer();
 
@@ -134,7 +135,6 @@ public class KanbanBoardTest {
         kanbanBoard.loadToBoard(fileLoading.loadFile("done"), "done");
         assertThat(kanbanBoard.getDone().getLength()).isEqualTo(1);
     }
-    // TODO: mehr Tests
 
     @Test
     void kanbanBoard_addToBoard_throwsIllegalArgumentException() {
@@ -142,31 +142,6 @@ public class KanbanBoardTest {
             kanbanBoard.addToBoard("lalala", taskCall);
         });
     }
-
-/////////////////////////////////////////////////////////////////
-/*
-    @Test
-    void kanbanBoard_deleteFromBoard() throws IOException {
-        TaskList done = new KanbanCategory();
-        done.add(taskGym);
-        fileSaving.saveToFile(done, "done");
-        kanbanBoard.loadToBoard(fileLoading.loadFile("done"), "done");
-        kanbanBoard.deleteFromBoard("done", taskGym);
-        assertThat(kanbanBoard.getDone().getLength()).isEqualTo(0);
-    }
-
-
-
-    @Test
-    void kanbanBoard_deleteFromBoardDoing() throws IOException {
-        TaskList doing = new KanbanCategory();
-        doing.add(taskGym);
-        fileSaving.saveToFile(doing, "doing");
-        kanbanBoard.loadToBoard(fileLoading.loadFile("doing"), "doing");
-        kanbanBoard.deleteFromBoard("doing", taskGym);
-        assertThat(kanbanBoard.getDoing().getLength()).isEqualTo(0);
-    }
-*/
 
     @Test
     void kanbanBoard_deleteFromBoardDoingWithWrongLabel() throws IOException {
@@ -187,4 +162,12 @@ public class KanbanBoardTest {
         kanbanBoard.deleteFromBoard("done", taskCode);
         assertThat(kanbanBoard.getDoing().getLength()).isEqualTo(1);
     } // wenn man die falsche Task eingibt, wird es nicht gelöscht
+
+    @AfterAll
+    public static void cleanUpFiles() throws IOException {
+        new FileWriter("src/test/java/hwr/oop/toodleedoo/resources/toDo.txt", false).close();
+        new FileWriter("src/test/java/hwr/oop/toodleedoo/resources/doing.txt", false).close();
+        new FileWriter("src/test/java/hwr/oop/toodleedoo/resources/done.txt", false).close();
+        new FileWriter("src/test/java/hwr/oop/toodleedoo/resources/taskList.txt", false).close();
+    }
 }

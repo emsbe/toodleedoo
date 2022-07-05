@@ -104,6 +104,6 @@ public class KanbanBoard {
             }
         }
         return false;
-    } // TODO: mehr Tests schreiben!!!
+    }
 
 }

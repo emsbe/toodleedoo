@@ -32,7 +32,7 @@ public class Display {
     }
 
     public void showTaskAt(TaskManager taskList, String date) {
-        LocalDate formatDate = LocalDate.parse(date, formatter);
+        LocalDate formatDate = transformDate.createLocalDate(date);
         System.out.println(date + ":");
         for (int index = 0; index < taskList.getLength(); index++) {
             Task taskAtIndex = taskList.getTaskAtIndex(index);

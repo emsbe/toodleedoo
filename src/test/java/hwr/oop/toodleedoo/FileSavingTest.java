@@ -24,7 +24,7 @@ public class FileSavingTest {
 
     @BeforeEach
     void setUp() {
-        taskList = new TaskManager();
+        taskList = new GeneralTaskList();
         kanbanBoard = new KanbanBoard();
         dueDate = LocalDate.parse("25.05.2022", formatter);
         deadline = LocalDate.parse("27.05.2022", formatter);

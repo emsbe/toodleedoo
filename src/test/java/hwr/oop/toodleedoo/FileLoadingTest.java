@@ -27,7 +27,7 @@ public class FileLoadingTest {
     @BeforeEach
     void setUp() throws IOException {
         FileSaving fileSaving = new FileSaving();
-        taskList = new TaskManager();
+        taskList = new GeneralTaskList();
         kanbanBoard = new KanbanBoard();
         dueDate = LocalDate.parse("25.05.2022", formatter);
         deadline = LocalDate.parse("27.05.2022", formatter);
@@ -62,13 +62,13 @@ public class FileLoadingTest {
         taskList = fileLoading.loadFile("taskList");
         String desiredOutput = "Loading taskList has been successful.";
         assertThat(desiredOutput).isEqualTo(outputStream.toString().trim());
-        assertThat(taskList).isInstanceOf(TaskManager.class);
+        assertThat(taskList).isInstanceOf(GeneralTaskList.class);
     }
 
     @Test
     void fileLoading_loadFile_toDoIsOfTypeTaskListOrganizer_isNotOfTypeTaskList() {
         TaskList toDo = fileLoading.loadFile("toDo");
-        assertThat(toDo).isInstanceOf(TaskList.class).isNotInstanceOf(TaskManager.class);
+        assertThat(toDo).isInstanceOf(TaskList.class).isNotInstanceOf(GeneralTaskList.class);
     }
 
     @Test

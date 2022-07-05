@@ -23,7 +23,7 @@ public class FileLoading {
     }
 
     private TaskManager loadFileToTaskList(String listType) {
-        TaskManager taskList = new TaskManager();
+        TaskManager taskList = new GeneralTaskList();
         try {
             File file = new File("src/test/java/hwr/oop/toodleedoo/resources/"+listType+".txt");
             Scanner scanner = new Scanner(file);
