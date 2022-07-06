@@ -4,9 +4,9 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class KanbanBoard {
-    TaskList toDo;
-    TaskList doing;
-    TaskList done;
+    private TaskList toDo;
+    private TaskList doing;
+    private TaskList done;
 
     public KanbanBoard() {
         this.toDo = new KanbanCategory();
