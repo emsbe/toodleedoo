@@ -4,8 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Display {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    LocalDateTransformer transformDate = new LocalDateTransformer();
+    private LocalDateTransformer transformDate = new LocalDateTransformer();
 
     public void showAllTasksIn(TaskManager taskList) {
         int length = taskList.getLength();
