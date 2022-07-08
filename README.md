@@ -79,3 +79,5 @@ Comment out @Disabled in ManualTest and run ManualTest. This could be your inter
 | 5 | java.util | java.util contains the collections framework, legacy collection classes, miscellaneous utility classes etc. | java.util is used to create collections, compare Strings (java.util.Objects) and read from the console (Scanner) |
 | 6 | java.io | java.io provides for system input and output through data streams, serialization and the file system | java.io is used to save data to files and handle exceptions |
 
+## UML diagram
+![uml](UML_toodleedoo.png)
