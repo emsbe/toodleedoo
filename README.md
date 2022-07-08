@@ -12,9 +12,22 @@ This repository contains a student project created for an ongoing lecture on obj
 <br> <br> This application was programmed in Java by Emma-Sophie Betz and Begüm Nur Ak 👭🏽.</br> </p>
 
 
-[TODO]: # (Write a short description of your project.)
 [TODO]: # (State most important features.)
+## Most important features
+The most important features can be summarized as follows:
+| Number | Feature         | Usage                  | Classes & Interfaces | Test files      |
+|--------|-----------------|------------------------|----------------------|-----------------|
+| 1      | Task management | - create a Task object with name, date and deadline<br>- aggregate multiple tasks into one general list<br> | Task, TaskList, TaskManager, GeneralTaskList | TaskTest.java, GeneralTaskListTest.java |
+| 2 | Kanban | - save multiple tasks into a kanban category<br>- load saved tasks from files into their kanban categories<br>- add tasks to and delete tasks from kanban category<br>- move a task between kanban categories<br>- print out kanban board | KanbanBoard, KanbanCategory, TaskList | KanbanCategoryTest.java, KanbanBoardTest.java | 
+| 3 | Display | - display all tasks<br>- display tasks filtered (and ordered) by date or deadline | Display | DisplayTest.java |
+| 4 | Reusability | - save GeneralTaskList and each KanbanCategory to a file<br> - load data from these files back into usable objects | FileLoading, FileSaving, LocalDateTransformer | FileLoadingTest.java, FileSavingTest.java, LocalDateTransformer.java |
+
+
 [TODO]: # (State the most interesting problems you encountered during the project.)
+## Interesting problems we've encountered
+- While for FileSaving, we could use the most general datatype of our task lists (TaskList) to implement the necessary methods, for FileLoading we had to be more specific. The interface TaskManager inherits from the interface TaskList, adding more methods and functionality to it. Therefore, more methods can be used on objects of GeneralTaskList than on objects of TaskList. That is why it was important to load the data from the GeneralTaskList-object into an object of the datatype TaskManager.
+- We were successful in simulating and testing user input using InputStreams, OutputStreams and PrintStreams. The problem was that because of that, the method was not actually usable. For testing output, the OutputStream only affected the functionality in the specific test that was run. But for input testing, InputStream and PrintStream had to be given as parameters when initializing the Input object. It affected the construction of the class itself. Therefore, we could not use it in the final installment of our project.
+- While doing test runs of the ManualTest, we've encountered an interesting problem multiple times. Sometimes when editing or deleting tasks from the task list, the task was not updated or deleted from the kanban board. When we then repeated the exact same process (same input, same steps), the task was updated or deleted in the kanban board. We still have not found out why the ManualTest does not work perfectly all the time.
 
 ## Feature List
 
@@ -41,5 +54,10 @@ This repository contains a student project created for an ongoing lecture on obj
 
 | Number | Dependency Name | Dependency Description | Why is it necessary? |
 |--------|-----------------|------------------------|----------------------|
-| 1      | /               | /                      | /                    |
+| 1      | java.time | API for dates, times, instants, and durations | java.time is used to create LocalDate objects to be able to work with a given date and deadline of tasks (e.g. to compare two dates) |
+| 2 | java.time.format | Provides classes to print and parse dates and times  | java.time.format is used to use a custom format for the input of dates as well as to print dates in this specific format  |
+| 3 | Comparable | Java Comparable interface is used to order the objects of the user-defined class | The compareTo() method is used to compare two tasks by date to be able to have a sorted array list of tasks, beginning with the task with the nearest date, ending with the task with a date farthest in the future |
+| 4 | Comparator | Java Comparator interface is used to order the objects of a user-defined class | The compare() method is used to reorder a task list based on a given filter (date or deadline) |
+| 5 | java.util | java.util contains the collections framework, legacy collection classes, miscellaneous utility classes etc. | java.util is used to create collections, compare Strings (java.util.Objects) and read from the console (Scanner) |
+| 6 | java.io | java.io provides for system input and output through data streams, serialization and the file system | java.io is used to save data to files and handle exceptions |
 
