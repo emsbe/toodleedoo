@@ -12,9 +12,6 @@ public class ManualTest {
 
     private final Scanner scanner = new Scanner(System.in);
     private TaskManager taskList = new GeneralTaskList();
-    private TaskList toDo = new KanbanCategory();
-    private TaskList doing = new KanbanCategory();
-    private TaskList done = new KanbanCategory();
     private final FileLoading fileLoading = new FileLoading();
     private final FileSaving fileSaving = new FileSaving();
     private KanbanBoard kanbanBoard;
@@ -104,6 +101,7 @@ public class ManualTest {
             System.out.println("Which task do you want to move? ");
             showAllTaskNames();
             moveTask();
+            kanbanBoard.show();
         } else {
             System.out.println("Invalid command. Please try again. ");
         }
@@ -133,7 +131,7 @@ public class ManualTest {
     }
 
     private void showAllCommands() {
-        System.out.println("-> enter task, delete task, task done, edit task, kanban, show tasks, show tasks with filter, what can I do?, quit");
+        System.out.println("-> enter task, delete task, edit task, kanban, show tasks, show tasks with filter, what can I do?, quit");
     }
 
     private void quit() throws IOException {
