@@ -13,9 +13,9 @@ This repository contains a student project created for an ongoing lecture on obj
 [TODO]: # (State most important features.)
 ## Most important features
 The most important features can be summarized as follows:
-| Number | Feature         | Usage                  | Classes & Interfaces | Test files      |
+| Number | Feature         | Usage                  | Types | Test files      |
 |--------|-----------------|------------------------|----------------------|-----------------|
-| 1      | Task management | - create a Task object with name, date and deadline<br>- aggregate multiple tasks into one general list<br> | Task, TaskList, TaskManager, GeneralTaskList | TaskTest.java, GeneralTaskListTest.java |
+| 1      | Task management | - create a Task object with name, date and deadline<br>- aggregate multiple tasks into one general list<br> | [Task](src/main/java/hwr/oop/toodleedoo/Task.java), TaskList, TaskManager, GeneralTaskList | TaskTest.java, GeneralTaskListTest.java |
 | 2 | Kanban | - save multiple tasks into a kanban category<br>- load saved tasks from files into their kanban categories<br>- add tasks to and delete tasks from kanban category<br>- move a task between kanban categories<br>- print out kanban board | KanbanBoard, KanbanCategory, TaskList | KanbanCategoryTest.java, KanbanBoardTest.java | 
 | 3 | Display | - display all tasks<br>- display tasks filtered (and ordered) by date or deadline | Display | DisplayTest.java |
 | 4 | Reusability | - save GeneralTaskList and each KanbanCategory to a file<br> - load data from these files back into usable objects | FileLoading, FileSaving, LocalDateTransformer | FileLoadingTest.java, FileSavingTest.java, LocalDateTransformer.java |
@@ -27,7 +27,7 @@ The most important features can be summarized as follows:
 - We were successful in simulating and testing user input using InputStreams, OutputStreams and PrintStreams. The problem was that because of that, the method was not actually usable. For testing output, the OutputStream only affected the functionality in the specific test that was run. But for input testing, InputStream and PrintStream had to be given as parameters when initializing the Input object. It affected the construction of the class itself. Therefore, we could not use it in the final installment of our project.
 - While doing test runs of the ManualTest, we've encountered an interesting problem multiple times. Sometimes when editing or deleting tasks from the task list, the task was not updated or deleted from the kanban board. When we then repeated the exact same process (same input, same steps), the task was updated or deleted in the kanban board. We still have not found out why the ManualTest does not work perfectly all the time.
 
-## Feature List
+## ManualTest: Feature List
 
 [TODO]: # (For each feature implemented, add a row to the table!)
 
