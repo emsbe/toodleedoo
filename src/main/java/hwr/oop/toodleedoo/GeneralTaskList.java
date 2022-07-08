@@ -34,7 +34,7 @@ public class GeneralTaskList implements TaskManager, Sorting {
     public int getLength() {
         return taskList.size();
     }
-
+/*
     @Override
     public void sortBy(String filter) throws IllegalArgumentException {
         if (Objects.equals(filter, "deadline") || Objects.equals(filter, "date")) {
@@ -45,12 +45,33 @@ public class GeneralTaskList implements TaskManager, Sorting {
                         return firstTask.getDeadline().compareTo(secondTask.getDeadline());
                     } else if(Objects.equals(filter, "date")) {
                         return firstTask.getDate().compareTo(secondTask.getDate());
-                    } else return 0;
+                    }
+                    return 0;
                 }
             });
         } else {
             throw new IllegalArgumentException("Error. Please enter deadline or date as a filter.");
         }
+    }
+
+ */
+    @Override
+    public void sortBy(String filter) throws IllegalArgumentException {
+        if (filter == "deadline") {
+            Collections.sort(taskList, new Comparator<Task>() {
+                @Override
+                public int compare(Task firstTask, Task secondTask) {
+                    return firstTask.getDeadline().compareTo(secondTask.getDeadline());
+                }
+            });
+        } else if (filter == "date") {
+            Collections.sort(taskList, new Comparator<Task>() {
+                @Override
+                public int compare(Task firstTask, Task secondTask) {
+                    return firstTask.getDate().compareTo(secondTask.getDate());
+                }
+            });
+        } else throw new IllegalArgumentException("Error. Please enter deadline or date as a filter.");
     }
 
     @Override
