@@ -33,9 +33,9 @@ The most important features can be summarized as follows:
 
 [TODO]: # (For each feature implemented, add a row to the table!)
 
-| Number | Feature                |Usage                                        | Tests        |
-|--------|------------------------|---------------------------------------------|--------------|
-| 1      | enter task             |to add a new task <br> <ul> <li> 📝  you have to give a name to your task,then enter the date when you want to work on it and by when it has to be done at the latest and last but not least, type in “yes” or “no” if you want the task to be added to the Kanban board<br><li> ❗️ make sure you write your dates in one of these formats “dd.mm.yyyy”, “dd.mm.yy” or “dd.mm.”</ul> </br>|                                             |        |                        |                                             |              |
+| Number | Feature                |Usage                                        | 
+|--------|------------------------|---------------------------------------------|
+| 1      | enter task             |to add a new task <br> <ul> <li> 📝  you have to give a name to your task,then enter the date when you want to work on it and by when it has to be done at the latest and last but not least, type in “yes” or “no” if you want the task to be added to the Kanban board<br><li> ❗️ make sure you write your dates in one of these formats “dd.mm.yyyy”, “dd.mm.yy” or “dd.mm.”</ul> </br>|                                             |        |                        |                                             |              
 | 2      | save to kanban board   |after you typed in a new task with the required dates, you can also save the taskto the Kanban board <br> <ul> <li> 📝 for that you have to type in “yes” and give your task a label, so that the program knows in which column the task must be placed </ul> </br> 
 | 3      |delete task             |to delete a task, that has already been entered in the past<br> <ul> <li>📝 if you have a task listed multiple times, you can easily choose which one to delete by typing in the number on the left side of the tasks </ul> </br>|
 | 4      |edit task               | to update a chosen task for you and delete the old task    | 
@@ -45,6 +45,26 @@ The most important features can be summarized as follows:
 | 8      | what can I do?         | you can type in the exact same sentence and get shown all features you can use|
 | 9      | quit                   | to end the program                                         |
 
+
+## Example: How to use toodleedoo
+Comment out @Disabled in ManualTest and run ManualTest. This could be your interaction:
+
+| Console Output | Your Input |
+| ---------------| -----------|
+| Welcome to toodleedoo <3 <br>Enter your next command: | `enter task` |
+| Enter a task: | `grade OOP projects` |
+| you've entered: grade OOP projects<br> Enter a date for the task: | `09.07.` |
+| you've entered: 09.07.<br>Enter a deadline for the task: | `25.07.` |
+| you've entered: 25.07.<br>Do you want to save the task to kanban? (yes/no) | `yes` |
+| Which label: to do, doing, done? | `to do` |
+| Enter your next command: | `show tasks` |
+| Which tasks do you want to see? Enter: today, this week, all | `all` |
+| 1 - grade OOP projects on 09.07.2022, Deadline: 25.07.2022<br>Enter your next command: | `kanban` |
+| What do you want to do with kanban: show or move task | `move task` |
+| Which task do you want to move?<br>grade OOP projects | `grade OOP projects` |
+| To which label do you want to move your task? | `doing` |
+| *prints your current kanban board*<br>Enter your next command: | `quit` |
+| taskList has been successfully saved.<br>toDo has been successfully saved.<br>doing has been successfully saved.<br>done has been successfully saved.|  |
 
 
 
