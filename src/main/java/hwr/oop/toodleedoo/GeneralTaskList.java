@@ -34,37 +34,17 @@ public class GeneralTaskList implements TaskManager, Sorting {
     public int getLength() {
         return taskList.size();
     }
-/*
-    @Override
-    public void sortBy(String filter) throws IllegalArgumentException {
-        if (Objects.equals(filter, "deadline") || Objects.equals(filter, "date")) {
-            Collections.sort(taskList, new Comparator<Task>() {
-                @Override
-                public int compare(Task firstTask, Task secondTask) {
-                    if(Objects.equals(filter, "deadline")) {
-                        return firstTask.getDeadline().compareTo(secondTask.getDeadline());
-                    } else if(Objects.equals(filter, "date")) {
-                        return firstTask.getDate().compareTo(secondTask.getDate());
-                    }
-                    return 0;
-                }
-            });
-        } else {
-            throw new IllegalArgumentException("Error. Please enter deadline or date as a filter.");
-        }
-    }
 
- */
     @Override
     public void sortBy(String filter) throws IllegalArgumentException {
-        if (filter == "deadline") {
+        if (Objects.equals(filter, "deadline")) {
             Collections.sort(taskList, new Comparator<Task>() {
                 @Override
                 public int compare(Task firstTask, Task secondTask) {
                     return firstTask.getDeadline().compareTo(secondTask.getDeadline());
                 }
             });
-        } else if (filter == "date") {
+        } else if (Objects.equals(filter, "date")) {
             Collections.sort(taskList, new Comparator<Task>() {
                 @Override
                 public int compare(Task firstTask, Task secondTask) {
