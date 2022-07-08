@@ -3,6 +3,7 @@ package hwr.oop.toodleedoo;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -35,7 +36,7 @@ public class ManualTest {
         }
     }
 
-    private void loadAllFiles() {
+    private void loadAllFiles() throws FileNotFoundException {
         kanbanBoard = new KanbanBoard();
         taskList = fileLoading.loadFile("taskList");
         kanbanBoard.loadToBoard(fileLoading.loadFile("toDo"), "to do");

@@ -1,6 +1,7 @@
 package hwr.oop.toodleedoo;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +12,7 @@ import java.util.Scanner;
 public class FileLoading {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public <T> T loadFile(String listType) {
+    public <T> T loadFile(String listType) throws FileNotFoundException {
         if (Objects.equals(listType, "taskList")) {
             return (T) loadFileToTaskList(listType);
         } else if (Objects.equals(listType, "toDo") || Objects.equals(listType, "doing") || Objects.equals(listType, "done")){
@@ -19,36 +20,27 @@ public class FileLoading {
         } else {
             throw new IllegalArgumentException("Illegal argument. Enter taskList, toDo, doing or done.");
         }
-
     }
 
-    private TaskManager loadFileToTaskList(String listType) {
+    private TaskManager loadFileToTaskList(String listType) throws FileNotFoundException {
         TaskManager taskList = new GeneralTaskList();
-        try {
-            File file = new File("src/test/java/hwr/oop/toodleedoo/resources/"+listType+".txt");
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                Task task = stringToTask(scanner.nextLine());
-                taskList.add(task);
-            }
-        } catch (IOException e) {
-            System.out.println(listType+" could not be read. Try again.");
+        File file = new File("src/test/java/hwr/oop/toodleedoo/resources/"+listType+".txt");
+        Scanner scanner = new Scanner(file);
+        while (scanner.hasNextLine()) {
+            Task task = stringToTask(scanner.nextLine());
+            taskList.add(task);
         }
         System.out.println("Loading "+listType+" has been successful.");
         return taskList;
     }
 
-    private TaskList loadFileToKanbanTaskList(String listType) {
+    private TaskList loadFileToKanbanTaskList(String listType) throws FileNotFoundException {
         TaskList taskList = new KanbanCategory();
-        try {
-            File file = new File("src/test/java/hwr/oop/toodleedoo/resources/"+listType+".txt");
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                Task task = stringToTask(scanner.nextLine());
-                taskList.add(task);
-            }
-        } catch (IOException e) {
-            System.out.println(listType+" could not be read. Try again.");
+        File file = new File("src/test/java/hwr/oop/toodleedoo/resources/"+listType+".txt");
+        Scanner scanner = new Scanner(file);
+        while (scanner.hasNextLine()) {
+            Task task = stringToTask(scanner.nextLine());
+            taskList.add(task);
         }
         System.out.println("Loading "+listType+" has been successful.");
         return taskList;

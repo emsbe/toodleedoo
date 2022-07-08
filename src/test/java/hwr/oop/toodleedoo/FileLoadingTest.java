@@ -4,10 +4,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -58,7 +55,7 @@ public class FileLoadingTest {
     }
 
     @Test
-    void fileLoading_loadFile_taskListIsOfTypeTaskList() {
+    void fileLoading_loadFile_taskListIsOfTypeTaskList() throws FileNotFoundException {
         taskList = fileLoading.loadFile("taskList");
         String desiredOutput = "Loading taskList has been successful.";
         assertThat(desiredOutput).isEqualTo(outputStream.toString().trim());
@@ -66,13 +63,13 @@ public class FileLoadingTest {
     }
 
     @Test
-    void fileLoading_loadFile_toDoIsOfTypeTaskListOrganizer_isNotOfTypeTaskList() {
+    void fileLoading_loadFile_toDoIsOfTypeTaskListOrganizer_isNotOfTypeTaskList() throws FileNotFoundException {
         TaskList toDo = fileLoading.loadFile("toDo");
         assertThat(toDo).isInstanceOf(TaskList.class).isNotInstanceOf(GeneralTaskList.class);
     }
 
     @Test
-    void fileLoading_loadFile_OutputSaysLoadingIsSuccessful() {
+    void fileLoading_loadFile_OutputSaysLoadingIsSuccessful() throws FileNotFoundException {
         taskList = fileLoading.loadFile("taskList");
         String desiredOutput = "Loading taskList has been successful.";
         assertThat(desiredOutput).isEqualTo(outputStream.toString().trim());
@@ -91,6 +88,7 @@ public class FileLoadingTest {
             taskList = fileLoading.loadFile("doooing");
         });
     }
+
 
     @AfterAll
     public static void cleanUpFiles() throws IOException {
